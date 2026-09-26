@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resource  :prediction,  only: :create
   end
 
+  get "faq",  to: "faq#show",  as: :faq
   get "hoje", to: "rank#show", as: :rank
   get "hall", to: "hall#index", as: :hall
   get "dias/:day", to: "hall#show", as: :day, constraints: { day: /\d{4}-\d{2}-\d{2}/ }

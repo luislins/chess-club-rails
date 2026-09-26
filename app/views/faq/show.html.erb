@@ -1,0 +1,88 @@
+<% content_for :title, "FAQ · Chess Club" %>
+<hgroup>
+  <h1>Perguntas frequentes</h1>
+  <p>Tudo o que você precisa saber para jogar na arena.</p>
+</hgroup>
+
+<article class="faq">
+  <h3>O básico</h3>
+  <details>
+    <summary>O que é o Chess Club?</summary>
+    <p>Uma arena de xadrez aberta que recomeça todo dia à meia-noite (horário de Brasília). Você cria uma sala, alguém senta na outra cadeira e vocês jogam. Quem chega depois assiste, conversa no chat e dá palpite. No fim do dia tem um campeão.</p>
+  </details>
+  <details>
+    <summary>Preciso criar conta?</summary>
+    <p>Não. Você só escolhe um nome. O navegador guarda uma identidade anônima por um ano, então se você voltar amanhã do mesmo aparelho, entra com o mesmo nome automaticamente. Se limpar os cookies ou trocar de aparelho, é um jogador novo.</p>
+  </details>
+  <details>
+    <summary>Por que meu nome "já está em uso hoje"?</summary>
+    <p>Cada nome é único dentro do dia, para o ranking não ter dois "Luis". Quem chega primeiro fica com ele. Amanhã ele está livre de novo. Você pode trocar o nome a qualquer momento no canto superior da página.</p>
+  </details>
+  <details>
+    <summary>Quantas salas posso criar?</summary>
+    <p>Uma aberta por vez, e o site aceita no máximo <%= Room::MAX_OPEN_ROOMS %> salas abertas ao mesmo tempo. Salas paradas por <%= Room::STALE_AFTER.inspect %> (ou terminadas há <%= Room::FINISHED_TTL.inspect %>) somem sozinhas.</p>
+  </details>
+
+  <h3>Pontuação</h3>
+  <details>
+    <summary>Como funciona a pontuação?</summary>
+    <ul>
+      <li>Vitória: <strong><%= Arena::WIN_POINTS %> pontos</strong>. Empate: <strong><%= Arena::DRAW_POINTS %></strong>. Derrota: 0.</li>
+      <li>Sequência: a partir da <%= Arena::STREAK_THRESHOLD + 1 %>ª vitória seguida, cada vitória vale <strong>+<%= Arena::STREAK_BONUS %></strong>. Empate ou derrota zera a sequência.</li>
+      <li>Rei da colina: derrotar quem está liderando o dia (<%= ArenaHelper::CROWN %>) vale <strong>+<%= Arena::KING_BONUS %></strong>.</li>
+      <li>Palpite certo: <strong>+<%= Arena::PREDICTION_POINTS %></strong>.</li>
+    </ul>
+  </details>
+  <details>
+    <summary>Toda partida conta?</summary>
+    <p>Xeque-mate conta sempre. Desistência e empate só contam com pelo menos <%= Arena::MIN_MOVES %> lances jogados na sala. No máximo <%= Arena::MAX_GAMES_PER_PAIR %> partidas por dia contra a mesma pessoa entram no placar, para ninguém "farmar" ponto com um amigo. Partidas abandonadas não contam.</p>
+  </details>
+  <details>
+    <summary>O que é a coroa <%= ArenaHelper::CROWN %>?</summary>
+    <p>É quem está em primeiro no ranking do dia. Ela aparece ao lado do nome nas salas para todo mundo saber quem desafiar. Vencer o líder vale bônus.</p>
+  </details>
+  <details>
+    <summary>Quando o placar zera?</summary>
+    <p>À meia-noite. Todo dia é uma corrida nova: quem estava em primeiro vira campeão do dia e entra no <%= link_to "hall da fama", hall_path %>. Ranking do dia em <%= link_to "Hoje", rank_path %>.</p>
+  </details>
+
+  <h3>Assistindo</h3>
+  <details>
+    <summary>Como funciona o palpite?</summary>
+    <p>Em qualquer sala em andamento, quem assiste pode apostar em brancas ou pretas até o lance <%= Arena::PREDICTION_DEADLINE %>, e pode mudar de ideia até lá. Acertou, ganha <%= Arena::PREDICTION_POINTS %> ponto no ranking do dia. Empate não dá ponto a ninguém. Só vale se a partida contou para os jogadores.</p>
+  </details>
+  <details>
+    <summary>Posso jogar e dar palpite ao mesmo tempo?</summary>
+    <p>Não na própria partida. Em outras salas, sim.</p>
+  </details>
+
+  <h3>Tema do dia</h3>
+  <details>
+    <summary>O que muda de um dia para o outro?</summary>
+    <p>De segunda a sexta (menos quarta) e domingo é xadrez clássico. <strong>Quarta</strong> é a abertura do dia: todas as partidas começam depois de uma abertura famosa já jogada. <strong>Sábado</strong> é especial: um dia sem damas, outro só com reis e peões. Hoje: <%= @theme.name %>.</p>
+  </details>
+  <details>
+    <summary>Tem Chess960?</summary>
+    <p>Ainda não. O motor de regras que usamos não implementa o roque do 960.</p>
+  </details>
+
+  <h3>Regras do jogo</h3>
+  <details>
+    <summary>Como movo as peças?</summary>
+    <p>Clique na peça e depois na casa de destino. As casas possíveis ficam marcadas. Clique de novo na peça para desmarcar. Na promoção, escolha a peça no menu que aparece em cima do tabuleiro.</p>
+  </details>
+  <details>
+    <summary>Quais regras valem?</summary>
+    <p>Todas as regras oficiais são validadas no servidor: roque, en passant, promoção, xeque-mate, afogamento, material insuficiente, regra dos 50 lances e tripla repetição. Não tem relógio (por enquanto).</p>
+  </details>
+  <details>
+    <summary>Fechei o navegador no meio da partida. E agora?</summary>
+    <p>Volte para a sala: sua cadeira continua sua enquanto a sala existir. Se ninguém mexer por <%= Room::STALE_AFTER.inspect %>, a sala é removida.</p>
+  </details>
+
+  <h3>Privacidade</h3>
+  <details>
+    <summary>O que vocês guardam sobre mim?</summary>
+    <p>Um identificador aleatório no cookie, o nome que você escolheu, os resultados das partidas e os palpites do dia. As mensagens do chat somem junto com a sala. Nada de e-mail, senha ou dados pessoais.</p>
+  </details>
+</article>

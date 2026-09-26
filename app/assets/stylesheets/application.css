@@ -17,6 +17,8 @@
 .prediction button { width: auto; margin: .25rem .25rem 0 0; }
 .moves .preset { opacity: .55; }
 tr.me td { background: #fff8dc; }
+.faq h3 { margin-top: 1.5rem; }
+.faq details { margin-bottom: .25rem; }
 .recap { list-style: none; padding: 0; }
 .recap li { margin-bottom: .4rem; }
 textarea[readonly] { font-family: monospace; font-size: .85rem; }

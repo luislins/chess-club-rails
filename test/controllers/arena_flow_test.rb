@@ -78,6 +78,12 @@ class ArenaFlowTest < ActionDispatch::IntegrationTest
     assert_equal hall_url, fan.response.location
   end
 
+  test "faq is public" do
+    get faq_path
+    assert_response :ok
+    assert_includes response.body, "Perguntas frequentes"
+  end
+
   test "renaming keeps names unique and updates open rooms" do
     post welcome_path, params: { nickname: "Alice" }
     Player.enroll("other", "Bob")
