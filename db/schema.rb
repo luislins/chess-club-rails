@@ -10,7 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_26_025855) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_26_032413) do
+  create_table "champions", force: :cascade do |t|
+    t.date "day", null: false
+    t.string "champion_name"
+    t.integer "champion_points"
+    t.string "best_predictor_name"
+    t.integer "best_predictor_correct"
+    t.string "fastest_mate_winner"
+    t.integer "fastest_mate_moves"
+    t.integer "longest_game_moves"
+    t.integer "games_count", default: 0, null: false
+    t.integer "players_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["day"], name: "index_champions_on_day", unique: true
+  end
+
+  create_table "games", force: :cascade do |t|
+    t.date "day", null: false
+    t.integer "room_id"
+    t.string "room_name", null: false
+    t.string "theme_key", default: "classic", null: false
+    t.integer "white_player_id"
+    t.integer "black_player_id"
+    t.string "result", null: false
+    t.integer "moves_count", default: 0, null: false
+    t.boolean "counted", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["black_player_id"], name: "index_games_on_black_player_id"
+    t.index ["day", "counted"], name: "index_games_on_day_and_counted"
+    t.index ["white_player_id"], name: "index_games_on_white_player_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.integer "room_id", null: false
     t.string "nickname", null: false
@@ -18,6 +51,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_025855) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["room_id"], name: "index_messages_on_room_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.date "day", null: false
+    t.string "token", null: false
+    t.string "name", null: false
+    t.integer "points", default: 0, null: false
+    t.integer "wins", default: 0, null: false
+    t.integer "draws", default: 0, null: false
+    t.integer "losses", default: 0, null: false
+    t.integer "streak", default: 0, null: false
+    t.integer "predictions_correct", default: 0, null: false
+    t.integer "predictions_total", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "day, lower(name)", name: "index_players_on_day_and_lower_name", unique: true
+    t.index ["day", "points"], name: "index_players_on_day_and_points"
+    t.index ["day", "token"], name: "index_players_on_day_and_token", unique: true
+  end
+
+  create_table "predictions", force: :cascade do |t|
+    t.integer "room_id", null: false
+    t.integer "player_id", null: false
+    t.string "color", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["player_id"], name: "index_predictions_on_player_id"
+    t.index ["room_id", "player_id"], name: "index_predictions_on_room_id_and_player_id", unique: true
+    t.index ["room_id"], name: "index_predictions_on_room_id"
   end
 
   create_table "rooms", force: :cascade do |t|
@@ -34,11 +96,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_025855) do
     t.datetime "last_activity_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "theme_key", default: "classic", null: false
     t.index ["creator_token"], name: "index_rooms_on_creator_token"
     t.index ["last_activity_at"], name: "index_rooms_on_last_activity_at"
     t.index ["slug"], name: "index_rooms_on_slug", unique: true
     t.index ["status"], name: "index_rooms_on_status"
   end
 
+  add_foreign_key "games", "players", column: "black_player_id"
+  add_foreign_key "games", "players", column: "white_player_id"
   add_foreign_key "messages", "rooms"
+  add_foreign_key "predictions", "players"
+  add_foreign_key "predictions", "rooms"
 end

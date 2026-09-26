@@ -6,3 +6,6 @@ production:
   room_cleanup:
     class: RoomCleanupJob
     schedule: every 10 minutes
+  arena_close:
+    class: ArenaCloseJob
+    schedule: every day at 00:05

@@ -3,9 +3,9 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :ensure_player_token
-  before_action :require_nickname
+  before_action :require_player
 
-  helper_method :player_token, :current_nickname, :htmx_request?
+  helper_method :player_token, :current_player, :current_nickname, :htmx_request?, :arena_leader
 
   private
 
@@ -17,10 +17,31 @@ class ApplicationController < ActionController::Base
 
   def player_token = session[:player_token]
 
-  # First visit: send the user to the welcome screen to pick a name, then bring
-  # them back to where they were going (e.g. a room link a friend shared).
-  def require_nickname
-    return if session[:nickname].present?
+  # Today's Player for this browser (nil until enrolled).
+  def current_player
+    @current_player ||= Player.find_by(day: Arena.today, token: player_token)
+  end
+
+  def current_nickname
+    current_player&.name || session[:nickname].presence || "Anônimo"
+  end
+
+  def arena_leader
+    return @arena_leader if defined?(@arena_leader)
+    @arena_leader = Player.leader
+  end
+
+  # Every day starts fresh: returning visitors are re-enrolled with the name
+  # they used before, as long as nobody took it today. First visits (or a
+  # taken name) go to the welcome screen, then back to where they were going
+  # (e.g. a room link a friend shared).
+  def require_player
+    return if current_player
+
+    if session[:nickname].present?
+      player = Player.enroll(player_token, session[:nickname])
+      return @current_player = player if player.persisted?
+    end
 
     if htmx_request?
       response.set_header("HX-Redirect", welcome_path)
@@ -29,10 +50,6 @@ class ApplicationController < ActionController::Base
       session[:return_to] = request.fullpath if request.get?
       redirect_to welcome_path
     end
-  end
-
-  def current_nickname
-    session[:nickname].presence || "Anônimo-#{player_token.to_s.first(4)}"
   end
 
   def htmx_request? = request.headers["HX-Request"].present?

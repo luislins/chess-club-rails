@@ -1,0 +1,33 @@
+<% content_for :title, "Hoje · Chess Club" %>
+<hgroup>
+  <h1>Arena de hoje · <%= l(@day) %></h1>
+  <p><%= @theme.name %>. O placar zera à meia-noite (<%= time_ago_in_words(@midnight) %> restantes).</p>
+</hgroup>
+
+<%# htmx polling keeps the table fresh while people play %>
+<div id="rank" hx-get="<%= rank_path %>" hx-trigger="every 15s" hx-select="#rank" hx-swap="outerHTML">
+  <p><small><%= @games_count %> partidas contaram hoje · <%= @rooms_playing %> em andamento · <%= @players.size %> jogadores</small></p>
+  <% if @players.empty? %>
+    <p>Ninguém entrou na arena ainda hoje.</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Jogador</th><th>Pts</th><th>V</th><th>E</th><th>D</th><th>Seq.</th><th>Palpites</th></tr>
+      </thead>
+      <tbody>
+        <% @players.each_with_index do |p, i| %>
+          <tr class="<%= 'me' if p == current_player %>">
+            <td><%= i + 1 %></td>
+            <td><%= crowned_name(p.name, p.token) %><%= " (você)" if p == current_player %></td>
+            <td><strong><%= p.points %></strong></td>
+            <td><%= p.wins %></td><td><%= p.draws %></td><td><%= p.losses %></td>
+            <td><%= p.streak >= 2 ? "🔥 #{p.streak}" : p.streak %></td>
+            <td><%= p.predictions_correct %>/<%= p.predictions_total %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>
+
+<p><%= link_to "Resumo de hoje", day_path(@day.iso8601) %> · <%= link_to "Hall da fama", hall_path %></p>

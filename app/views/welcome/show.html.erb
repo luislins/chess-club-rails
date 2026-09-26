@@ -1,15 +1,25 @@
 <% content_for :title, "Bem-vindo · Chess Club" %>
 <article class="welcome">
   <hgroup>
-    <h1>♞ Bem-vindo ao Chess Club</h1>
-    <p>Sem cadastro. Diga só como quer ser chamado e vamos jogar.</p>
+    <h1>♞ Chess Club</h1>
+    <p>Uma arena de xadrez que recomeça todo dia à meia-noite. Sem cadastro: diga só como quer ser chamado hoje.</p>
   </hgroup>
   <%= form_with url: welcome_path, method: :post do |f| %>
     <fieldset role="group">
-      <%= f.text_field :nickname, placeholder: "Seu nome", required: true, minlength: 2, maxlength: 20,
+      <%= f.text_field :nickname, placeholder: "Seu nome de hoje", required: true, minlength: 2, maxlength: 20,
                        autofocus: true, autocomplete: "nickname", value: params[:nickname] %>
-      <%= f.submit "Entrar" %>
+      <%= f.submit "Entrar na arena" %>
     </fieldset>
   <% end %>
-  <small>Você pode mudar o nome depois, no canto superior da página.</small>
+  <p><strong>Hoje:</strong> <%= @theme.name %>. <small><%= @theme.description %></small></p>
+  <details>
+    <summary>Como funciona</summary>
+    <ul>
+      <li>Vitória vale <%= Arena::WIN_POINTS %> pontos, empate <%= Arena::DRAW_POINTS %>. A partir da 3ª vitória seguida, +<%= Arena::STREAK_BONUS %> por vitória.</li>
+      <li>Derrotar quem lidera o dia (<%= ArenaHelper::CROWN %>) vale +<%= Arena::KING_BONUS %>.</li>
+      <li>Assistindo? Dê seu palpite até o lance <%= Arena::PREDICTION_DEADLINE %>. Acertou, +<%= Arena::PREDICTION_POINTS %> ponto.</li>
+      <li>Desistências e empates só contam com <%= Arena::MIN_MOVES %>+ lances. Xeque-mate conta sempre. No máximo <%= Arena::MAX_GAMES_PER_PAIR %> partidas por dia contra a mesma pessoa.</li>
+      <li>À meia-noite o placar zera e o campeão entra no <%= link_to "hall da fama", hall_path %>.</li>
+    </ul>
+  </details>
 </article>

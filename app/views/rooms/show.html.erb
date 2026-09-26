@@ -15,7 +15,7 @@
 
   <aside class="side">
     <%= render "rooms/game_info", room: @room, oob: false %>
-    <%= render "rooms/me", room: @room, oob: false %>
+    <%= render "rooms/me", room: @room, oob: false, prediction: @prediction %>
 
     <article class="chat">
       <header><strong>Chat</strong></header>

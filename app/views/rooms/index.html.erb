@@ -1,7 +1,24 @@
 <hgroup>
   <h1>Salas</h1>
-  <p>Crie uma sala, sente-se numa cadeira e convide alguém. Quem chega depois assiste e conversa no chat.</p>
+  <p>Crie uma sala, sente-se numa cadeira e convide alguém. Quem chega depois assiste, conversa e dá palpite.</p>
 </hgroup>
+
+<article class="arena-banner">
+  <div>
+    <strong>Arena de hoje:</strong> <%= @theme.name %>
+    <% unless @theme.classic? %><br><small><%= @theme.description %></small><% end %>
+  </div>
+  <div>
+    <% if @top_players.any? %>
+      <% @top_players.each_with_index do |p, i| %>
+        <span class="top"><%= i + 1 %>º <%= crowned_name(p.name, p.token) %> · <%= p.points %> pts</span>
+      <% end %>
+    <% else %>
+      <small>Ninguém pontuou ainda. Seja o primeiro!</small>
+    <% end %>
+    <%= link_to "Ranking completo →", rank_path %>
+  </div>
+</article>
 
 <article>
   <% if @creation_error %>

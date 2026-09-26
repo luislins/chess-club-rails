@@ -3,8 +3,14 @@ class NicknamesController < ApplicationController
 
   # PATCH /nickname
   def update
-    nickname = params[:nickname].to_s.strip.first(20)
-    session[:nickname] = nickname.presence
-    render partial: "nicknames/form", locals: { saved: true }
+    if current_player.rename(params[:nickname])
+      session[:nickname] = current_player.name
+      Room.open.where(white_token: player_token).update_all(white_name: current_player.name)
+      Room.open.where(black_token: player_token).update_all(black_name: current_player.name)
+      render partial: "nicknames/form", locals: { saved: true }
+    else
+      current_player.reload
+      render partial: "nicknames/form", locals: { error: current_player.errors.full_messages.to_sentence }, status: :unprocessable_entity
+    end
   end
 end

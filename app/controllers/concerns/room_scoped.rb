@@ -14,6 +14,8 @@ module RoomScoped
 
   # Default response for htmx actions: the board (target) plus out-of-band panels.
   def render_state(selected: nil, promotion: nil, status: :ok)
-    render partial: "rooms/state", locals: { room: @room, selected: selected, promotion: promotion }, status: status
+    render partial: "rooms/state",
+           locals: { room: @room, selected: selected, promotion: promotion, prediction: @room.predictions.find_by(player: current_player) },
+           status: status
   end
 end

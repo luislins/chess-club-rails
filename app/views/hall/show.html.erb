@@ -1,0 +1,33 @@
+<% content_for :title, "#{l(@day)} · Chess Club" %>
+<hgroup>
+  <h1>Resumo de <%= l(@day) %></h1>
+  <p><%= Arena::Theme.for(@day).name %><%= " · ainda em andamento, os números mudam até a meia-noite" if @live %></p>
+</hgroup>
+
+<div class="grid">
+  <article>
+    <ul class="recap">
+      <li>🏆 <strong>Campeão:</strong> <%= @recap.champion_name ? "#{@recap.champion_name} (#{@recap.champion_points} pts)" : "ninguém pontuou" %></li>
+      <li>🔮 <strong>Melhor palpiteiro:</strong> <%= @recap.best_predictor_name ? "#{@recap.best_predictor_name} (#{count_pt(@recap.best_predictor_correct, 'acerto')})" : "—" %></li>
+      <li>⚡ <strong>Mate mais rápido:</strong> <%= @recap.fastest_mate_winner ? "#{@recap.fastest_mate_winner} em #{@recap.fastest_mate_moves} lances" : "—" %></li>
+      <li>🐢 <strong>Partida mais longa:</strong> <%= @recap.longest_game_moves ? "#{@recap.longest_game_moves} lances" : "—" %></li>
+      <li>📊 <%= count_pt(@recap.games_count, "partida") %> · <%= count_pt(@recap.players_count, "jogador", "jogadores") %></li>
+    </ul>
+  </article>
+  <article data-controller="clipboard">
+    <header><strong>Compartilhar</strong></header>
+    <textarea readonly rows="7" data-clipboard-target="source"><%= share_text(@recap) %></textarea>
+    <button class="secondary" data-action="clipboard#copy" data-clipboard-target="button">Copiar texto</button>
+  </article>
+</div>
+
+<% if @players.any? %>
+  <h3>Top 10</h3>
+  <ol>
+    <% @players.each do |p| %>
+      <li><%= p.name %> · <%= p.points %> pts (<%= p.wins %>V <%= p.draws %>E <%= p.losses %>D)</li>
+    <% end %>
+  </ol>
+<% end %>
+
+<p><%= link_to "← Hall da fama", hall_path %> · <%= link_to "Arena de hoje", rank_path %></p>

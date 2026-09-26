@@ -28,6 +28,27 @@ any number of spectators and a chat, all updated in real time. No sign-up, no lo
    black, squares only clickable on your turn, and so on).
 4. Chat messages use `broadcast_append_to room` directly from the model.
 
+## The daily arena
+
+Everything resets at midnight (`config.time_zone`, Brasília):
+
+- Players enroll for the day with a name that is unique for that day (first come,
+  first served). Returning visitors are re-enrolled automatically as long as their
+  name is still free. See `Player` and `ApplicationController#require_player`.
+- Scoring (`Arena` constants, `Arena::Scorer`): win 3, draw 1, +1 from the third
+  consecutive win, +2 for beating the current leader (the crown next to a name).
+  Resignations and draws only count after 10 moves; checkmate always counts. At most
+  3 games per day between the same two players count.
+- Spectators predict the winner until move 10 (`Prediction`); a correct guess is worth
+  1 point, so the ranking mixes players and fans.
+- Theme of the day (`Arena::Theme`): Wednesdays start from an opening, Saturdays get a
+  special position (no queens, or kings and pawns only). Rooms store their `theme_key`
+  and the board is rebuilt from the theme plus the moves played.
+- `/hoje` is today's ranking, `/dias/:date` the recap of a day (with share text) and
+  `/hall` the hall of fame. `ArenaCloseJob` runs just after midnight (Solid Queue,
+  `config/recurring.yml`) and writes the `Champion` row for the previous day; the admin
+  area can run it by hand.
+
 ## Identity and limits (without accounts)
 
 - Each browser gets a random `player_token` in the session. Nicknames are optional.

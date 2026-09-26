@@ -23,9 +23,15 @@
       <nav>
         <ul>
           <li><strong><%= link_to "♞ Chess Club", root_path %></strong></li>
+          <li><%= link_to "Salas", root_path %></li>
+          <li><%= link_to "Hoje", rank_path %></li>
+          <li><%= link_to "Hall da fama", hall_path %></li>
         </ul>
         <ul>
-          <% if session[:nickname].present? %><li><%= render "nicknames/form" %></li><% end %>
+          <% if current_player %>
+            <li><small><%= current_player.points %> pts hoje</small></li>
+            <li><%= render "nicknames/form" %></li>
+          <% end %>
         </ul>
       </nav>
     </header>

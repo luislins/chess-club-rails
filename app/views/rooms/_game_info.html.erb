@@ -1,15 +1,23 @@
+<% counts = room.prediction_counts %>
 <article id="game_info" <%= 'hx-swap-oob="true"'.html_safe if oob %>>
-  <header><strong><%= room.status_text %></strong></header>
+  <header><strong><%= room.status_text %></strong> <%= theme_badge(room.theme) %></header>
   <div class="players">
-    <div class="<%= 'to-move' if room.playing? && room.turn == :white %>">♙ Brancas: <%= room.name_of(:white) %></div>
-    <div class="<%= 'to-move' if room.playing? && room.turn == :black %>">♟ Pretas: <%= room.name_of(:black) %></div>
+    <div class="<%= 'to-move' if room.playing? && room.turn == :white %>">♙ Brancas: <%= crowned_name(room.name_of(:white), room.white_token) %></div>
+    <div class="<%= 'to-move' if room.playing? && room.turn == :black %>">♟ Pretas: <%= crowned_name(room.name_of(:black), room.black_token) %></div>
   </div>
-  <% if room.moves.any? %>
+  <% if counts.values.sum > 0 %>
+    <p class="crowd"><small>Torcida: ♙ <%= counts[:white] %> · ♟ <%= counts[:black] %><%= " · palpites abertos até o lance #{Arena::PREDICTION_DEADLINE}" if room.predictions_open? %></small></p>
+  <% end %>
+  <% if room.moves.any? || room.theme.moves.any? %>
     <details open>
       <summary>Lances (<%= room.moves.size %>)</summary>
       <ol class="moves">
         <% room.move_pairs.each do |n, white, black| %>
-          <li><span><%= white %></span> <span><%= black %></span></li>
+          <li>
+            <% [ white, black ].compact.each do |san, preset| %>
+              <span class="<%= 'preset' if preset %>"><%= san %></span>
+            <% end %>
+          </li>
         <% end %>
       </ol>
     </details>

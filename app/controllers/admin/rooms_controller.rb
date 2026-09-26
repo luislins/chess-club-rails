@@ -7,8 +7,18 @@ module Admin
         finished: Room.finished.count,
         stale: Room.stale.count,
         messages: Message.count,
-        max_open: Room::MAX_OPEN_ROOMS
+        max_open: Room::MAX_OPEN_ROOMS,
+        players_today: Player.today.count,
+        games_today: Game.on(Arena.today).count,
+        champions: Champion.count
       }
+    end
+
+    # POST /admin/close_day - (re)build yesterday's hall of fame entry now.
+    def close_day
+      day = Arena.today - 1
+      ArenaCloseJob.perform_now(day)
+      redirect_to admin_root_path, notice: "Dia #{I18n.l(day)} fechado."
     end
 
     def destroy

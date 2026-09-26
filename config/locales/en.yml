@@ -29,3 +29,16 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      player:
+        name: "Nome"
+      prediction:
+        color: "Cor"
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d/%m"
+  time:
+    formats:
+      default: "%d/%m/%Y %H:%M"

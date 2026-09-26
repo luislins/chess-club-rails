@@ -1,0 +1,27 @@
+<% content_for :title, "Hall da fama · Chess Club" %>
+<hgroup>
+  <h1>Hall da fama</h1>
+  <p>Um campeão por dia. A única coisa que não zera à meia-noite.</p>
+</hgroup>
+
+<% if @champions.empty? %>
+  <p>Nenhum dia fechado ainda. O primeiro campeão aparece aqui amanhã. <%= link_to "Ver a arena de hoje", rank_path %>.</p>
+<% else %>
+  <table>
+    <thead>
+      <tr><th>Dia</th><th>Campeão</th><th>Palpiteiro</th><th>Mate mais rápido</th><th>Partidas</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% @champions.each do |c| %>
+        <tr>
+          <td><%= l(c.day) %> <%= theme_badge(c.theme) %></td>
+          <td><%= c.champion_name ? "🏆 #{c.champion_name} (#{c.champion_points} pts)" : "—" %></td>
+          <td><%= c.best_predictor_name ? "🔮 #{c.best_predictor_name} (#{count_pt(c.best_predictor_correct, 'acerto')})" : "—" %></td>
+          <td><%= c.fastest_mate_winner ? "⚡ #{c.fastest_mate_winner}, #{c.fastest_mate_moves} lances" : "—" %></td>
+          <td><%= c.games_count %></td>
+          <td><%= link_to "resumo", day_path(c.day.iso8601) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

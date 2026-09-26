@@ -12,7 +12,12 @@ Rails.application.routes.draw do
     resources :moves,       only: :create
     resource  :resignation, only: :create
     resources :messages,    only: :create
+    resource  :prediction,  only: :create
   end
+
+  get "hoje", to: "rank#show", as: :rank
+  get "hall", to: "hall#index", as: :hall
+  get "dias/:day", to: "hall#show", as: :day, constraints: { day: /\d{4}-\d{2}-\d{2}/ }
 
   resource :nickname, only: :update
 
@@ -25,6 +30,7 @@ Rails.application.routes.draw do
       collection { post :cleanup }
       member     { post :clear_chat }
     end
+    post "close_day", to: "rooms#close_day", as: :close_day
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

@@ -1,5 +1,5 @@
 <%# Default response for htmx actions in a room: the target (#board) plus out-of-band panels. %>
 <%= render "rooms/board", room: room, selected: selected, promotion: promotion %>
 <%= render "rooms/game_info", room: room, oob: true %>
-<%= render "rooms/me", room: room, oob: true %>
+<%= render "rooms/me", room: room, oob: true, prediction: prediction %>
 <%= render "shared/flash" %>

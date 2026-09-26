@@ -9,9 +9,9 @@
       <tbody>
         <% rooms.each do |room| %>
           <tr>
-            <td><%= link_to room.name, room %></td>
-            <td><%= room.name_of(:white) %></td>
-            <td><%= room.name_of(:black) %></td>
+            <td><%= link_to room.name, room %> <%= theme_badge(room.theme) %></td>
+            <td><%= crowned_name(room.name_of(:white), room.white_token) %></td>
+            <td><%= crowned_name(room.name_of(:black), room.black_token) %></td>
             <td><%= room.status_text %></td>
             <td><%= link_to(room.full? ? "Assistir" : "Entrar", room, role: "button", class: "outline") %></td>
           </tr>

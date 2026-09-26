@@ -2,9 +2,13 @@
 <hgroup>
   <h1>Admin</h1>
   <p>Salas abertas: <%= @stats[:open] %>/<%= @stats[:max_open] %> · terminadas: <%= @stats[:finished] %> · antigas (removíveis): <%= @stats[:stale] %> · mensagens: <%= @stats[:messages] %></p>
+  <p>Hoje: <%= @stats[:players_today] %> jogadores · <%= @stats[:games_today] %> partidas · <%= @stats[:champions] %> dias no hall da fama</p>
 </hgroup>
 
-<%= button_to "Remover salas antigas (#{@stats[:stale]})", cleanup_admin_rooms_path, class: "secondary" %>
+<div class="actions">
+  <%= button_to "Remover salas antigas (#{@stats[:stale]})", cleanup_admin_rooms_path, class: "secondary" %>
+  <%= button_to "Fechar o dia de ontem (hall da fama)", admin_close_day_path, class: "secondary" %>
+</div>
 
 <table>
   <thead>

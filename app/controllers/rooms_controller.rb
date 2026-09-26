@@ -8,6 +8,8 @@ class RoomsController < ApplicationController
   def index
     @rooms = Room.recent.limit(50)
     @room = Room.new
+    @theme = Arena::Theme.for
+    @top_players = Player.today.scored.ranked.limit(3)
     @creation_error = Room.creation_error(player_token)
   end
 
@@ -16,7 +18,7 @@ class RoomsController < ApplicationController
       return redirect_to root_path, alert: error
     end
 
-    @room = Room.new(room_params.merge(creator_token: player_token))
+    @room = Room.new(room_params.merge(creator_token: player_token, theme_key: Arena::Theme.for.key))
     if @room.save
       redirect_to @room, notice: "Sala criada! Sente-se em uma cadeira para jogar."
     else
@@ -26,6 +28,7 @@ class RoomsController < ApplicationController
 
   def show
     @messages = @room.messages.order(:id).last(Room::MAX_MESSAGES)
+    @prediction = @room.predictions.find_by(player: current_player)
   end
 
   # GET /rooms/:slug/state?from=e2

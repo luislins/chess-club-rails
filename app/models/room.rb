@@ -16,6 +16,7 @@ class Room < ApplicationRecord
   COLORS = %w[white black].freeze
 
   has_many :messages, dependent: :delete_all
+  has_many :predictions, dependent: :delete_all
 
   serialize :moves, coder: JSON
 
@@ -25,6 +26,7 @@ class Room < ApplicationRecord
   validates :creator_token, presence: true
 
   before_validation :assign_defaults, on: :create
+  after_update_commit :record_result, if: -> { saved_change_to_status? && finished? }
 
   scope :open, -> { where.not(status: :finished) }
   scope :recent, -> { order(last_activity_at: :desc) }
@@ -51,8 +53,21 @@ class Room < ApplicationRecord
   end
 
   # ---- game --------------------------------------------------------------
+  def theme = Arena::Theme.find(theme_key)
+
+  # The board is rebuilt from the theme (FEN or preset opening) plus the moves
+  # played in this room.
   def game
-    @game ||= Chess::Game.new(moves)
+    @game ||= begin
+      g = theme.fen ? Chess::Game.load_fen(theme.fen) : Chess::Game.new
+      (theme.moves + moves).each { |m| g.move(m) }
+      g
+    end
+  end
+
+  # Moves actually played here (without the FEN marker and the preset opening).
+  def played_moves
+    game.moves.reject { |m| m == "SET BY FEN" }.drop(theme.moves.size)
   end
 
   def board = game.board
@@ -126,7 +141,7 @@ class Room < ApplicationRecord
     raise Error, "Promoção inválida." unless promotion.empty? || %w[q r b n].include?(promotion)
 
     game.move("#{from}#{to}#{promotion}")
-    self.moves = game.moves
+    self.moves = played_moves
     finish_if_over
     touch_activity
     save!
@@ -177,9 +192,21 @@ class Room < ApplicationRecord
     end
   end
 
-  # Moves grouped as [number, white, black] for the view.
+  def checkmate_result? = %w[white_won black_won].include?(result)
+
+  # Moves grouped as [number, white, black] for the view; each move is
+  # [san, preset?] so the theme's opening can be styled differently.
   def move_pairs
-    moves.each_slice(2).with_index(1).map { |(w, b), n| [ n, w, b ] }
+    all = theme.moves.map { |m| [ m, true ] } + moves.map { |m| [ m, false ] }
+    all.each_slice(2).with_index(1).map { |(w, b), n| [ n, w, b ] }
+  end
+
+  # ---- predictions --------------------------------------------------------
+  def predictions_open? = playing? && moves.size < Arena::PREDICTION_DEADLINE
+
+  def prediction_counts
+    counts = predictions.group(:color).count
+    { white: counts["white"].to_i, black: counts["black"].to_i }
   end
 
   def touch_activity
@@ -193,6 +220,10 @@ class Room < ApplicationRecord
   end
 
   private
+
+  def record_result
+    Arena::Scorer.record(self)
+  end
 
   def square?(sq) = sq.to_s.match?(/\A[a-h][1-8]\z/)
 
