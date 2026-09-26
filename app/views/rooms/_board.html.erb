@@ -1,0 +1,48 @@
+<%
+  viewer_color = room.color_of(player_token)
+  my_turn      = room.playing? && viewer_color == room.turn
+  targets      = (my_turn && selected) ? room.legal_targets(selected) : []
+  ranks        = 8.downto(1).to_a
+  files        = ("a".."h").to_a
+%>
+<div id="board" class="board-wrap">
+  <% if promotion %>
+    <div class="promotion">
+      <span>Promover para:</span>
+      <% { "q" => "♛", "r" => "♜", "b" => "♝", "n" => "♞" }.each do |code, glyph| %>
+        <button class="<%= piece_color_class(viewer_color == :white ? 'P' : 'p') %>"
+                hx-post="<%= room_moves_path(room) %>"
+                hx-vals='{"from": "<%= promotion[:from] %>", "to": "<%= promotion[:to] %>", "promotion": "<%= code %>"}'
+                hx-target="#board" hx-swap="outerHTML"><%= glyph %></button>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="board <%= 'flipped' if viewer_color == :black %> <%= 'my-turn' if my_turn %>">
+    <% ranks.each do |rank| %>
+      <% files.each do |file| %>
+        <%
+          square  = "#{file}#{rank}"
+          piece   = room.piece_at(square)
+          classes = [ "sq", (file.ord + rank).even? ? "dark" : "light", piece_color_class(piece) ]
+          classes << "selected" if square == selected
+          classes << "target"   if targets.include?(square)
+          classes << "capture"  if targets.include?(square) && piece
+        %>
+        <% if my_turn && targets.include?(square) %>
+          <button class="<%= classes.join(' ') %>" data-square="<%= square %>"
+                  hx-post="<%= room_moves_path(room) %>"
+                  hx-vals='{"from": "<%= selected %>", "to": "<%= square %>"}'
+                  hx-target="#board" hx-swap="outerHTML"><%= piece_glyph(piece) %></button>
+        <% elsif my_turn && room.own_piece?(viewer_color, square) %>
+          <%# clicking the selected piece again deselects it (GET without ?from) %>
+          <button class="<%= classes.join(' ') %>" data-square="<%= square %>"
+                  hx-get="<%= state_room_path(room, from: (square == selected ? nil : square)) %>"
+                  hx-target="#board" hx-swap="outerHTML"><%= piece_glyph(piece) %></button>
+        <% else %>
+          <div class="<%= classes.join(' ') %>" data-square="<%= square %>"><%= piece_glyph(piece) %></div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

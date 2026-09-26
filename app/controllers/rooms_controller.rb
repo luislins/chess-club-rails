@@ -1,0 +1,53 @@
+class RoomsController < ApplicationController
+  include RoomScoped
+
+  skip_before_action :find_room, only: %i[index create]
+
+
+  def index
+    @rooms = Room.recent.limit(50)
+    @room = Room.new
+    @creation_error = Room.creation_error(player_token)
+  end
+
+  def create
+    if (error = Room.creation_error(player_token))
+      return redirect_to root_path, alert: error
+    end
+
+    @room = Room.new(room_params.merge(creator_token: player_token))
+    if @room.save
+      redirect_to @room, notice: "Sala criada! Sente-se em uma cadeira para jogar."
+    else
+      redirect_to root_path, alert: @room.errors.full_messages.to_sentence
+    end
+  end
+
+  def show
+    @messages = @room.messages.order(:id).last(Room::MAX_MESSAGES)
+  end
+
+  # GET /rooms/:slug/state?from=e2
+  # Viewer-specific state (clickable board, seats, ...). Requested by htmx when a piece
+  # is clicked and whenever the server broadcasts a refresh.
+  def state
+    selected = params[:from].to_s
+    selected = nil unless selected.match?(/\A[a-h][1-8]\z/) && @room.own_piece?(@room.color_of(player_token), selected)
+    render_state(selected: selected)
+  end
+
+  def destroy
+    return render_error("Só quem criou a sala pode fechá-la.", status: :forbidden) unless @room.creator?(player_token)
+
+    Turbo::StreamsChannel.broadcast_replace_to(@room, target: "room", partial: "rooms/closed", locals: { room: @room })
+    @room.destroy
+    response.set_header("HX-Redirect", root_path)
+    head :ok
+  end
+
+  private
+
+  def room_params
+    params.require(:room).permit(:name)
+  end
+end

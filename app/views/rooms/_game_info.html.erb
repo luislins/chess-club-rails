@@ -1,0 +1,17 @@
+<article id="game_info" <%= 'hx-swap-oob="true"'.html_safe if oob %>>
+  <header><strong><%= room.status_text %></strong></header>
+  <div class="players">
+    <div class="<%= 'to-move' if room.playing? && room.turn == :white %>">♙ Brancas: <%= room.name_of(:white) %></div>
+    <div class="<%= 'to-move' if room.playing? && room.turn == :black %>">♟ Pretas: <%= room.name_of(:black) %></div>
+  </div>
+  <% if room.moves.any? %>
+    <details open>
+      <summary>Lances (<%= room.moves.size %>)</summary>
+      <ol class="moves">
+        <% room.move_pairs.each do |n, white, black| %>
+          <li><span><%= white %></span> <span><%= black %></span></li>
+        <% end %>
+      </ol>
+    </details>
+  <% end %>
+</article>

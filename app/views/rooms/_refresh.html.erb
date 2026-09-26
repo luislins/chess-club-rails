@@ -1,0 +1,4 @@
+<%# Sent through Turbo Streams to everyone in the room. Stimulus (htmx_controller) calls
+    htmx.process() and hx-trigger="load" fires a GET for the viewer-specific state. %>
+<div id="refresh" data-controller="htmx"
+     hx-get="<%= state_room_path(room) %>" hx-trigger="load" hx-target="#board" hx-swap="outerHTML"></div>

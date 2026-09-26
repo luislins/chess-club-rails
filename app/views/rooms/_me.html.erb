@@ -1,0 +1,26 @@
+<% color = room.color_of(player_token) %>
+<article id="me" <%= 'hx-swap-oob="true"'.html_safe if oob %>>
+  <% if color %>
+    <p>Você joga de <strong><%= color_name(color) %></strong>.</p>
+    <% if room.waiting? %>
+      <p><small>Esperando um oponente sentar na outra cadeira…</small></p>
+      <button class="secondary outline" hx-delete="<%= room_seat_path(room) %>" hx-target="#board" hx-swap="outerHTML">Levantar</button>
+    <% elsif room.playing? %>
+      <button class="secondary outline" hx-post="<%= room_resignation_path(room) %>" hx-confirm="Desistir da partida?"
+              hx-target="#board" hx-swap="outerHTML">Desistir</button>
+    <% end %>
+  <% elsif room.finished? %>
+    <p>Partida encerrada.</p>
+  <% else %>
+    <p>Você está assistindo.</p>
+    <% if room.seat_free?(:white) %>
+      <button hx-post="<%= room_seat_path(room, color: :white) %>" hx-target="#board" hx-swap="outerHTML">Sentar como Brancas</button>
+    <% end %>
+    <% if room.seat_free?(:black) %>
+      <button hx-post="<%= room_seat_path(room, color: :black) %>" hx-target="#board" hx-swap="outerHTML">Sentar como Pretas</button>
+    <% end %>
+  <% end %>
+  <% if room.creator?(player_token) %>
+    <button class="contrast outline" hx-delete="<%= room_path(room) %>" hx-confirm="Fechar a sala para todo mundo?">Fechar sala</button>
+  <% end %>
+</article>

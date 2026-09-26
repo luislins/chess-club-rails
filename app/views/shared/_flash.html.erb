@@ -1,0 +1,8 @@
+<%# Out-of-band swap: any htmx response that includes this partial updates #flash %>
+<div id="flash" hx-swap-oob="true">
+  <% if local_assigns[:error].present? %>
+    <p class="flash flash-error"><%= error %></p>
+  <% elsif local_assigns[:notice].present? %>
+    <p class="flash flash-notice"><%= notice %></p>
+  <% end %>
+</div>
