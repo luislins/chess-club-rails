@@ -65,6 +65,16 @@ class RoomsFlowTest < ActionDispatch::IntegrationTest
     black.post room_messages_path(room), params: { body: "" }, headers: HX
     assert_equal 422, black.response.status
 
+    # the clock: a spectator refreshing after white's time ran out ends the game
+    white.get state_room_path(room), headers: HX
+    assert_includes white.response.body, 'data-clock-target="white"'
+    travel 11.minutes do
+      spectator.get state_room_path(room), headers: HX
+      assert room.reload.finished?
+      assert_includes spectator.response.body, "perderam no tempo"
+    end
+    room.update!(status: :playing, result: nil, white_ms: 60_000, turn_started_at: Time.current)
+
     black.post room_resignation_path(room), headers: HX
     assert room.reload.finished?
     assert_includes black.response.body, "Pretas desistiram"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_26_032413) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_26_034956) do
   create_table "champions", force: :cascade do |t|
     t.date "day", null: false
     t.string "champion_name"
@@ -97,6 +97,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_032413) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "theme_key", default: "classic", null: false
+    t.integer "time_control", default: 600, null: false
+    t.integer "white_ms"
+    t.integer "black_ms"
+    t.datetime "turn_started_at"
     t.index ["creator_token"], name: "index_rooms_on_creator_token"
     t.index ["last_activity_at"], name: "index_rooms_on_last_activity_at"
     t.index ["slug"], name: "index_rooms_on_slug", unique: true

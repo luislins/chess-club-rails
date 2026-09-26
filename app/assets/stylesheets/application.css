@@ -77,6 +77,10 @@ button.sq:hover { outline: 2px solid rgba(0,0,0,.3); outline-offset: -2px; }
 /* Sidebar */
 .side article { padding: 1rem; margin-bottom: 1rem; }
 .players .to-move { font-weight: bold; }
+.player-row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; }
+.clock { font-family: monospace; font-size: 1.1rem; padding: 0 .4rem; border-radius: .3rem; background: #eee; color: #333; }
+.to-move .clock { background: #333; color: #fff; }
+.clock.low { background: #b00020; color: #fff; }
 .moves { font-family: monospace; font-size: .9rem; max-height: 10rem; overflow: auto; padding-left: 2rem; }
 .moves li span { display: inline-block; min-width: 3.5rem; }
 .side button { width: auto; margin: .25rem .25rem .25rem 0; }

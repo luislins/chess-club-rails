@@ -1,9 +1,20 @@
 <% counts = room.prediction_counts %>
 <article id="game_info" <%= 'hx-swap-oob="true"'.html_safe if oob %>>
   <header><strong><%= room.status_text %></strong> <%= theme_badge(room.theme) %></header>
-  <div class="players">
-    <div class="<%= 'to-move' if room.playing? && room.turn == :white %>">♙ Brancas: <%= crowned_name(room.name_of(:white), room.white_token) %></div>
-    <div class="<%= 'to-move' if room.playing? && room.turn == :black %>">♟ Pretas: <%= crowned_name(room.name_of(:black), room.black_token) %></div>
+  <%# Clocks count down in the browser (clock_controller) from the server's numbers;
+      when one hits zero the client asks for the state and the server flags the game. %>
+  <div class="players" data-controller="clock" data-clock-state-url-value="<%= state_room_path(room) %>">
+    <% %i[white black].each do |color| %>
+      <div class="player-row <%= 'to-move' if room.playing? && room.turn == color %>">
+        <span><%= color == :white ? "♙ Brancas" : "♟ Pretas" %>: <%= crowned_name(room.name_of(color), room.public_send("#{color}_token")) %></span>
+        <% if room.remaining_ms(color) %>
+          <span class="clock" data-clock-target="<%= color %>" data-ms="<%= room.remaining_ms(color) %>"
+                data-running="<%= room.clock_running?(color) %>"></span>
+        <% else %>
+          <span class="clock"><%= room.time_control_text %></span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
   <% if counts.values.sum > 0 %>
     <p class="crowd"><small>Torcida: ♙ <%= counts[:white] %> · ♟ <%= counts[:black] %><%= " · palpites abertos até o lance #{Arena::PREDICTION_DEADLINE}" if room.predictions_open? %></small></p>

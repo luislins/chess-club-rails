@@ -106,3 +106,48 @@ class RoomTest < ActiveSupport::TestCase
     assert_equal [ @room, fresh, just_done ].sort, Room.all.to_a.sort
   end
 end
+
+class RoomClockTest < ActiveSupport::TestCase
+  setup do
+    @room = Room.create!(name: "Blitz", creator_token: "c", time_control: 180)
+    @room.sit!("w", "Alice", :white)
+    @room.sit!("b", "Bob", :black)
+  end
+
+  test "clocks start when both seats are taken" do
+    assert_equal 180_000, @room.white_ms
+    assert_equal 180_000, @room.black_ms
+    assert @room.clock_running?(:white)
+    assert_not @room.clock_running?(:black)
+  end
+
+  test "moving charges the mover and hands the clock over" do
+    travel 20.seconds
+    @room.play!("w", "e2", "e4")
+    assert_in_delta 160_000, @room.white_ms, 1_000
+    assert_equal 180_000, @room.black_ms
+    assert @room.clock_running?(:black)
+    travel 5.seconds
+    assert_in_delta 175_000, @room.remaining_ms(:black), 1_000
+  end
+
+  test "running out of time loses the game" do
+    travel 181.seconds
+    assert_equal 0, @room.remaining_ms(:white)
+    assert @room.check_timeout!
+    assert @room.finished?
+    assert_equal "black_won_time", @room.result
+    assert_match(/perderam no tempo/, @room.status_text)
+    assert_not @room.check_timeout!
+  end
+
+  test "a late move is refused and ends the game" do
+    travel 181.seconds
+    assert_raises(Room::Error) { @room.play!("w", "e2", "e4") }
+    assert @room.finished?
+  end
+
+  test "time control must be one of the offered options" do
+    assert_not Room.new(name: "x", creator_token: "c", time_control: 42).valid?
+  end
+end

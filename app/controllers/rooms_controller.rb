@@ -35,6 +35,7 @@ class RoomsController < ApplicationController
   # Viewer-specific state (clickable board, seats, ...). Requested by htmx when a piece
   # is clicked and whenever the server broadcasts a refresh.
   def state
+    @room.broadcast_refresh if @room.check_timeout!
     selected = params[:from].to_s
     selected = nil unless selected.match?(/\A[a-h][1-8]\z/) && @room.own_piece?(@room.color_of(player_token), selected)
     render_state(selected: selected)
@@ -52,6 +53,6 @@ class RoomsController < ApplicationController
   private
 
   def room_params
-    params.require(:room).permit(:name)
+    params.require(:room).permit(:name, :time_control)
   end
 end

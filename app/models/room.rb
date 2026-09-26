@@ -14,6 +14,7 @@ class Room < ApplicationRecord
   MAX_MESSAGES   = 200       # chat history kept per room
 
   COLORS = %w[white black].freeze
+  TIME_CONTROLS = { 180 => "3 min", 300 => "5 min", 600 => "10 min", 900 => "15 min" }.freeze
 
   has_many :messages, dependent: :delete_all
   has_many :predictions, dependent: :delete_all
@@ -24,6 +25,7 @@ class Room < ApplicationRecord
 
   validates :name, presence: true, length: { in: 2..40 }
   validates :creator_token, presence: true
+  validates :time_control, inclusion: { in: TIME_CONTROLS.keys }
 
   before_validation :assign_defaults, on: :create
   after_update_commit :record_result, if: -> { saved_change_to_status? && finished? }
@@ -123,15 +125,44 @@ class Room < ApplicationRecord
     raise Error, "Esse lugar já está ocupado." unless seat_free?(color)
 
     assign_attributes("#{color}_token" => token, "#{color}_name" => name)
-    self.status = :playing if full?
+    start_game if full?
     touch_activity
     save!
   end
+
+  # ---- clock -------------------------------------------------------------
+  # The server is the authority: each side's remaining time is stored and the
+  # side to move is charged for the time since `turn_started_at`.
+  def remaining_ms(color)
+    base = color == :white ? white_ms : black_ms
+    return base unless base && playing? && turn == color && turn_started_at
+    [ base - elapsed_ms, 0 ].max
+  end
+
+  def clock_running?(color) = playing? && turn == color && turn_started_at.present?
+
+  # Flags the side to move when its time ran out. Returns true if the game
+  # ended here, so the caller can broadcast.
+  def check_timeout!
+    return false unless playing? && turn_started_at
+    return false if remaining_ms(turn) > 0
+
+    loser = turn
+    self[:"#{loser}_ms"] = 0
+    self.status = :finished
+    self.result = "#{loser == :white ? 'black' : 'white'}_won_time"
+    touch_activity
+    save!
+    true
+  end
+
+  def time_control_text = TIME_CONTROLS[time_control]
 
   def play!(token, from, to, promotion = nil)
     color = color_of(token) or raise Error, "Você é espectador nesta sala."
     raise Error, "A partida ainda não começou." unless playing?
     raise Error, "Não é a sua vez." unless turn == color
+    raise Error, "Seu tempo acabou." if check_timeout!
     raise Error, "Lance inválido." unless square?(from) && square?(to)
 
     if promotion.blank? && promotion_move?(from, to)
@@ -142,6 +173,7 @@ class Room < ApplicationRecord
 
     game.move("#{from}#{to}#{promotion}")
     self.moves = played_moves
+    charge_clock(color)
     finish_if_over
     touch_activity
     save!
@@ -183,6 +215,8 @@ class Room < ApplicationRecord
     when "black_won"           then "Xeque-mate! Pretas venceram"
     when "white_won_resign"    then "Pretas desistiram. Brancas venceram"
     when "black_won_resign"    then "Brancas desistiram. Pretas venceram"
+    when "white_won_time"      then "Pretas perderam no tempo. Brancas venceram"
+    when "black_won_time"      then "Brancas perderam no tempo. Pretas venceram"
     when "stalemate"           then "Empate por afogamento"
     when "insufficient_material" then "Empate por material insuficiente"
     when "fifty_move_rule"     then "Empate pela regra dos 50 lances"
@@ -220,6 +254,20 @@ class Room < ApplicationRecord
   end
 
   private
+
+  def start_game
+    self.status = :playing
+    self.white_ms = self.black_ms = time_control * 1000
+    self.turn_started_at = Time.current
+  end
+
+  def elapsed_ms = ((Time.current - turn_started_at) * 1000).to_i
+
+  def charge_clock(color)
+    return unless turn_started_at
+    self[:"#{color}_ms"] = [ self[:"#{color}_ms"] - elapsed_ms, 0 ].max
+    self.turn_started_at = Time.current
+  end
 
   def record_result
     Arena::Scorer.record(self)

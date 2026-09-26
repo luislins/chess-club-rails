@@ -73,7 +73,11 @@
   </details>
   <details>
     <summary>Quais regras valem?</summary>
-    <p>Todas as regras oficiais são validadas no servidor: roque, en passant, promoção, xeque-mate, afogamento, material insuficiente, regra dos 50 lances e tripla repetição. Não tem relógio (por enquanto).</p>
+    <p>Todas as regras oficiais são validadas no servidor: roque, en passant, promoção, xeque-mate, afogamento, material insuficiente, regra dos 50 lances e tripla repetição.</p>
+  </details>
+  <details>
+    <summary>Como funciona o relógio?</summary>
+    <p>Quem cria a sala escolhe o tempo por lado (<%= Room::TIME_CONTROLS.values.join(", ") %>), sem incremento. O relógio das brancas começa a correr assim que as duas cadeiras estão ocupadas. Acabou o tempo, perdeu a partida. O tempo é contado no servidor, então fechar a aba não pausa nada.</p>
   </details>
   <details>
     <summary>Fechei o navegador no meio da partida. E agora?</summary>

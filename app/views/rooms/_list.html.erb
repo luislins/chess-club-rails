@@ -9,7 +9,7 @@
       <tbody>
         <% rooms.each do |room| %>
           <tr>
-            <td><%= link_to room.name, room %> <%= theme_badge(room.theme) %></td>
+            <td><%= link_to room.name, room %> <small><%= room.time_control_text %></small> <%= theme_badge(room.theme) %></td>
             <td><%= crowned_name(room.name_of(:white), room.white_token) %></td>
             <td><%= crowned_name(room.name_of(:black), room.black_token) %></td>
             <td><%= room.status_text %></td>

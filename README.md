@@ -16,6 +16,9 @@ any number of spectators and a chat, all updated in real time. No sign-up, no lo
 - **Pico CSS** (vendored in `app/assets/stylesheets/pico.min.css`). No Tailwind.
 - The **[chess](https://github.com/pioz/chess)** gem enforces the rules on the server
   (legal moves, castling, promotion, checkmate, draws).
+- Game clock (3 to 15 minutes per side, no increment) kept on the server: each move
+  charges the mover for the time since their turn started, and any client that sees a
+  clock reach zero asks for the room state, where the server flags the game.
 
 ## How real time works
 

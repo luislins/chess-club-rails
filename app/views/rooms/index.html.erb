@@ -27,6 +27,7 @@
     <%= form_with model: @room, class: "new-room" do |f| %>
       <fieldset role="group">
         <%= f.text_field :name, placeholder: "Nome da sala", required: true, minlength: 2, maxlength: 40 %>
+        <%= f.select :time_control, Room::TIME_CONTROLS.map { |secs, label| [ label, secs ] }, selected: 600 %>
         <%= f.submit "Criar sala" %>
       </fieldset>
     <% end %>

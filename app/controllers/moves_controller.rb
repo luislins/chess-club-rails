@@ -11,6 +11,8 @@ class MovesController < ApplicationController
   rescue Room::PromotionNeeded => e
     render_state(promotion: { from: e.from, to: e.to })
   rescue Room::Error => e
+    # a timeout detected while trying to move ends the game for everyone
+    @room.broadcast_refresh if @room.finished?
     render_error(e.message)
   end
 end
