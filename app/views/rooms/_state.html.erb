@@ -1,0 +1,5 @@
+<%# Resposta padrão das ações htmx na sala: o alvo (#board) + painéis out-of-band. %>
+<%= render "rooms/board", room: room, selected: selected, promotion: promotion %>
+<%= render "rooms/game_info", room: room, oob: true %>
+<%= render "rooms/me", room: room, oob: true %>
+<%= render "shared/flash" %>

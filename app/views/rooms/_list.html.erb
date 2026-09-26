@@ -1,0 +1,22 @@
+<div id="rooms" hx-get="<%= root_path %>" hx-trigger="every 10s" hx-select="#rooms" hx-swap="outerHTML">
+  <% if rooms.empty? %>
+    <p>Nenhuma sala ainda. Crie a primeira!</p>
+  <% else %>
+    <table>
+      <thead>
+        <tr><th>Sala</th><th>Brancas</th><th>Pretas</th><th>Situação</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% rooms.each do |room| %>
+          <tr>
+            <td><%= link_to room.name, room %></td>
+            <td><%= room.name_of(:white) %></td>
+            <td><%= room.name_of(:black) %></td>
+            <td><%= room.status_text %></td>
+            <td><%= link_to(room.full? ? "Assistir" : "Entrar", room, role: "button", class: "outline") %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+</div>

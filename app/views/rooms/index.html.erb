@@ -1,0 +1,21 @@
+<hgroup>
+  <h1>Salas</h1>
+  <p>Crie uma sala, sente-se numa cadeira e convide alguém. Quem chega depois assiste e conversa no chat.</p>
+</hgroup>
+
+<article>
+  <% if @creation_error %>
+    <p><%= @creation_error %></p>
+  <% else %>
+    <%= form_with model: @room, class: "new-room" do |f| %>
+      <fieldset role="group">
+        <%= f.text_field :name, placeholder: "Nome da sala", required: true, minlength: 2, maxlength: 40 %>
+        <%= f.submit "Criar sala" %>
+      </fieldset>
+    <% end %>
+  <% end %>
+  <small><%= Room.open.count %>/<%= Room::MAX_OPEN_ROOMS %> salas abertas · salas paradas por <%= Room::STALE_AFTER.inspect %> são removidas.</small>
+</article>
+
+<%# htmx polling: a cada 10s busca esta mesma página e troca só a tabela (#rooms) %>
+<%= render "rooms/list", rooms: @rooms %>

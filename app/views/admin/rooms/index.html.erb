@@ -1,0 +1,30 @@
+<% content_for :title, "Admin · Chess Club" %>
+<hgroup>
+  <h1>Admin</h1>
+  <p>Salas abertas: <%= @stats[:open] %>/<%= @stats[:max_open] %> · terminadas: <%= @stats[:finished] %> · antigas (removíveis): <%= @stats[:stale] %> · mensagens: <%= @stats[:messages] %></p>
+</hgroup>
+
+<%= button_to "Remover salas antigas (#{@stats[:stale]})", cleanup_admin_rooms_path, class: "secondary" %>
+
+<table>
+  <thead>
+    <tr><th>Sala</th><th>Situação</th><th>Brancas</th><th>Pretas</th><th>Lances</th><th>Msgs</th><th>Última atividade</th><th></th></tr>
+  </thead>
+  <tbody>
+    <% @rooms.each do |room| %>
+      <tr>
+        <td><%= link_to room.name, room %> <small><%= room.slug %></small></td>
+        <td><%= room.status_text %></td>
+        <td><%= room.name_of(:white) %></td>
+        <td><%= room.name_of(:black) %></td>
+        <td><%= room.moves.size %></td>
+        <td><%= room.messages.size %></td>
+        <td><%= time_ago_in_words(room.last_activity_at) %> atrás</td>
+        <td class="actions">
+          <%= button_to "Limpar chat", clear_chat_admin_room_path(room), class: "outline secondary" %>
+          <%= button_to "Fechar", admin_room_path(room), method: :delete, class: "outline contrast", form: { data: { turbo_confirm: "Fechar?" }, onsubmit: "return confirm('Fechar a sala #{j room.name}?')" } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

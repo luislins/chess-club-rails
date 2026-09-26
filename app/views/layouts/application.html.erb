@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title><%= content_for(:title) || "Chess Club" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "pico.min", "application" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <%# hx-headers: todo request do htmx leva o token CSRF do Rails %>
+  <body hx-headers='{"X-CSRF-Token": "<%= form_authenticity_token %>"}'>
+    <header class="container">
+      <nav>
+        <ul>
+          <li><strong><%= link_to "♞ Chess Club", root_path %></strong></li>
+        </ul>
+        <ul>
+          <li><%= render "nicknames/form" %></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="container">
+      <%= render "shared/flash", error: flash[:alert], notice: flash[:notice] %>
+      <%= yield %>
+    </main>
+  </body>
+</html>
