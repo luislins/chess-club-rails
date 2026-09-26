@@ -25,7 +25,7 @@
           <li><strong><%= link_to "♞ Chess Club", root_path %></strong></li>
         </ul>
         <ul>
-          <li><%= render "nicknames/form" %></li>
+          <% if session[:nickname].present? %><li><%= render "nicknames/form" %></li><% end %>
         </ul>
       </nav>
     </header>

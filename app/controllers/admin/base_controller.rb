@@ -3,6 +3,7 @@ module Admin
   class BaseController < ApplicationController
     rate_limit to: 20, within: 1.minute, with: -> { head :too_many_requests }
 
+    skip_before_action :require_nickname
     before_action :authenticate_admin!
 
     private

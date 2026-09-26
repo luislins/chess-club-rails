@@ -9,6 +9,9 @@
 .nickname-form input { margin: 0; width: 12rem; }
 .nickname-form .saved { color: green; }
 
+.welcome { max-width: 32rem; margin: 3rem auto; }
+.welcome fieldset { margin-bottom: .5rem; }
+
 .new-room fieldset { margin-bottom: .25rem; }
 
 .room { display: grid; grid-template-columns: minmax(280px, 560px) minmax(260px, 1fr); gap: 1.5rem; }

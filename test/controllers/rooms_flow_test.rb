@@ -9,6 +9,10 @@ class RoomsFlowTest < ActionDispatch::IntegrationTest
     black = open_session
 
     white.get root_path
+    assert_equal welcome_url, white.response.location # first visit asks for a name
+    white.post welcome_path, params: { nickname: "Alice" }
+    assert_equal root_url, white.response.location
+    white.get root_path
     assert_response_ok white
     white.post rooms_path, params: { room: { name: "Sala X" } }
     room = Room.last
@@ -24,6 +28,10 @@ class RoomsFlowTest < ActionDispatch::IntegrationTest
     assert_includes white.response.body, "Você joga de <strong>Brancas"
 
     black.get room_path(room)
+    assert_equal welcome_url, black.response.location
+    black.post welcome_path, params: { nickname: "Bob" }
+    assert_equal room_url(room), black.response.location # back to the shared link
+    black.get room_path(room)
     assert_response_ok black
     assert_includes black.response.body, "Você está assistindo"
     black.post room_seat_path(room, color: :black), headers: HX
@@ -32,6 +40,7 @@ class RoomsFlowTest < ActionDispatch::IntegrationTest
 
     # spectators cannot move
     spectator = open_session
+    spectator.post welcome_path, params: { nickname: "Eve" }
     spectator.post room_moves_path(room), params: { from: "e2", to: "e4" }, headers: HX
     assert_equal 422, spectator.response.status
     assert_includes spectator.response.body, "espectador"
@@ -70,6 +79,9 @@ class RoomsFlowTest < ActionDispatch::IntegrationTest
 
   test "nickname is stored in the session and used in chat" do
     room = Room.create!(name: "Sala", creator_token: "x")
+    post welcome_path, params: { nickname: "L" }
+    assert_response :unprocessable_entity
+    post welcome_path, params: { nickname: "Luis  Lins" }
     patch nickname_path, params: { nickname: "Luis" }, headers: HX
     assert_response :ok
     assert_includes response.body, 'value="Luis"'

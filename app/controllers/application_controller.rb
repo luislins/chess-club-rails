@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   allow_browser versions: :modern
 
   before_action :ensure_player_token
+  before_action :require_nickname
 
   helper_method :player_token, :current_nickname, :htmx_request?
 
@@ -15,6 +16,20 @@ class ApplicationController < ActionController::Base
   end
 
   def player_token = session[:player_token]
+
+  # First visit: send the user to the welcome screen to pick a name, then bring
+  # them back to where they were going (e.g. a room link a friend shared).
+  def require_nickname
+    return if session[:nickname].present?
+
+    if htmx_request?
+      response.set_header("HX-Redirect", welcome_path)
+      head :ok
+    else
+      session[:return_to] = request.fullpath if request.get?
+      redirect_to welcome_path
+    end
+  end
 
   def current_nickname
     session[:nickname].presence || "Anônimo-#{player_token.to_s.first(4)}"
