@@ -3,42 +3,46 @@
   <head>
     <title><%= content_for(:title) || "Chess Club" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#16161e">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= yield :head %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="icon" href="/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="manifest" href="/manifest.json">
 
-    <%= stylesheet_link_tag "pico.min", "application" %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..800&display=swap">
+    <%= stylesheet_link_tag "application" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <%# hx-headers: every htmx request carries the Rails CSRF token %>
   <body hx-headers='{"X-CSRF-Token": "<%= form_authenticity_token %>"}'>
-    <header class="container">
-      <nav>
+    <header class="bar">
+      <ul>
+        <li><%= link_to root_path, class: "brand" do %><span class="knight">♞</span><span class="text">chess-club</span><% end %></li>
+        <li><%= link_to "salas", root_path, "aria-current": (request.path == "/" || request.path.start_with?("/rooms") ? "page" : nil) %></li>
+        <li><%= link_to "hoje",  rank_path, "aria-current": (current_page?(rank_path) ? "page" : nil) %></li>
+        <li><%= link_to "hall",  hall_path, "aria-current": (request.path.start_with?("/hall", "/dias") ? "page" : nil) %></li>
+        <li><%= link_to "faq",   faq_path,  "aria-current": (current_page?(faq_path) ? "page" : nil) %></li>
+      </ul>
+      <% if current_player %>
         <ul>
-          <li><strong><%= link_to "♞ Chess Club", root_path %></strong></li>
-          <li><%= link_to "Salas", root_path %></li>
-          <li><%= link_to "Hoje", rank_path %></li>
-          <li><%= link_to "Hall da fama", hall_path %></li>
-          <li><%= link_to "FAQ", faq_path %></li>
+          <li class="status"><b><%= current_player.points %></b> pts hoje</li>
+          <li class="sep" aria-hidden="true"></li>
+          <li><%= render "nicknames/form" %></li>
         </ul>
-        <ul>
-          <% if current_player %>
-            <li><small><%= current_player.points %> pts hoje</small></li>
-            <li><%= render "nicknames/form" %></li>
-          <% end %>
-        </ul>
-      </nav>
+      <% end %>
     </header>
 
-    <main class="container">
-      <%= render "shared/flash", error: flash[:alert], notice: flash[:notice] %>
+    <%= render "shared/flash", error: flash[:alert], notice: flash[:notice] %>
+    <main class="<%= yield :main_class %>">
       <%= yield %>
     </main>
   </body>

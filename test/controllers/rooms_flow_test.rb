@@ -4,6 +4,18 @@ require "test_helper"
 class RoomsFlowTest < ActionDispatch::IntegrationTest
   HX = { "HX-Request" => "true" }
 
+  test "a room can be created with a theme other than today's" do
+    player = open_session
+    player.post welcome_path, params: { nickname: "Alice" }
+    player.post rooms_path, params: { room: { name: "Italiana", theme_key: "opening:italiana" } }
+    assert_equal "opening:italiana", Room.last.theme_key
+    assert_equal %w[e4 e5 Nf3 Nc6 Bc4], Room.last.theme.moves
+
+    player.delete room_path(Room.last), headers: HX
+    player.post rooms_path, params: { room: { name: "Inválida", theme_key: "special:nope" } }
+    assert_equal Arena::Theme.for.key, Room.last.theme_key # unknown keys fall back to today's theme
+  end
+
   test "create, sit, move, chat, resign and close a room" do
     white = open_session
     black = open_session

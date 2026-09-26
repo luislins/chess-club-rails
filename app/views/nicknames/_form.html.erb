@@ -1,7 +1,7 @@
 <form id="nickname" class="nickname-form"
       hx-patch="<%= nickname_path %>" hx-trigger="submit, change" hx-target="#nickname" hx-swap="outerHTML">
   <label>
-    Seu nome
+    <span>nome</span>
     <input type="text" name="nickname" value="<%= current_nickname %>" maxlength="20" autocomplete="off"
            <%= 'aria-invalid="true"'.html_safe if local_assigns[:error] %>>
   </label>

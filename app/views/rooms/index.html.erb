@@ -1,39 +1,57 @@
-<hgroup>
-  <h1>Salas</h1>
-  <p>Crie uma sala, sente-se numa cadeira e convide alguém. Quem chega depois assiste, conversa e dá palpite.</p>
-</hgroup>
+<div class="stack">
+  <div class="arena-row">
+    <section class="pane" aria-label="Arena de hoje">
+      <div class="pane-head">
+        <span class="title">arena de hoje</span>
+        <span><%= l(Arena.today) %></span>
+      </div>
+      <div class="pane-body stack" style="gap: 6px;">
+        <p><span class="tag purple"><%= @theme.name %></span></p>
+        <% unless @theme.classic? %><p class="text-2"><%= @theme.description %></p><% end %>
+        <p class="text-2">Crie uma sala, sente-se numa cadeira e convide alguém. Quem chega depois assiste, conversa e dá palpite.</p>
+      </div>
+    </section>
 
-<article class="arena-banner">
-  <div>
-    <strong>Arena de hoje:</strong> <%= @theme.name %>
-    <% unless @theme.classic? %><br><small><%= @theme.description %></small><% end %>
+    <section class="pane" aria-label="Ranking">
+      <div class="pane-head">
+        <span class="title">liderança</span>
+        <%= link_to "ranking completo →", rank_path %>
+      </div>
+      <div class="pane-body">
+        <% if @top_players.any? %>
+          <ol class="top3">
+            <% @top_players.each_with_index do |p, i| %>
+              <li><span class="pos"><%= i + 1 %></span><span><%= crowned_name(p.name, p.token) %></span><span class="pts"><%= p.points %> pts</span></li>
+            <% end %>
+          </ol>
+        <% else %>
+          <p class="empty">Ninguém pontuou ainda. Seja o primeiro!</p>
+        <% end %>
+      </div>
+    </section>
   </div>
-  <div>
-    <% if @top_players.any? %>
-      <% @top_players.each_with_index do |p, i| %>
-        <span class="top"><%= i + 1 %>º <%= crowned_name(p.name, p.token) %> · <%= p.points %> pts</span>
+
+  <section class="pane" aria-label="Nova sala">
+    <div class="pane-head">
+      <span class="title">nova sala</span>
+      <span><%= Room.open.count %>/<%= Room::MAX_OPEN_ROOMS %> abertas · paradas por <%= Room::STALE_AFTER.inspect %> são removidas</span>
+    </div>
+    <div class="pane-body">
+      <% if @creation_error %>
+        <p class="text-2"><%= @creation_error %></p>
+      <% else %>
+        <%= form_with model: @room, class: "new-room" do |f| %>
+          <div class="field">
+            <%= f.text_field :name, placeholder: "nome da sala", required: true, minlength: 2, maxlength: 40, "aria-label": "Nome da sala" %>
+            <%= f.select :time_control, Room::TIME_CONTROLS.map { |secs, label| [ label, secs ] }, { selected: 600 }, "aria-label": "Tempo por lado" %>
+            <%= f.select :theme_key, Arena::Theme.options, { selected: @theme.key }, "aria-label": "Tema da sala", class: "theme-select" %>
+            <%= f.submit "criar sala", class: "primary" %>
+          </div>
+        <% end %>
       <% end %>
-    <% else %>
-      <small>Ninguém pontuou ainda. Seja o primeiro!</small>
-    <% end %>
-    <%= link_to "Ranking completo →", rank_path %>
-  </div>
-</article>
+    </div>
+  </section>
 
-<article>
-  <% if @creation_error %>
-    <p><%= @creation_error %></p>
-  <% else %>
-    <%= form_with model: @room, class: "new-room" do |f| %>
-      <fieldset role="group">
-        <%= f.text_field :name, placeholder: "Nome da sala", required: true, minlength: 2, maxlength: 40 %>
-        <%= f.select :time_control, Room::TIME_CONTROLS.map { |secs, label| [ label, secs ] }, selected: 600 %>
-        <%= f.submit "Criar sala" %>
-      </fieldset>
-    <% end %>
-  <% end %>
-  <small><%= Room.open.count %>/<%= Room::MAX_OPEN_ROOMS %> salas abertas · salas paradas por <%= Room::STALE_AFTER.inspect %> são removidas.</small>
-</article>
-
-<%# htmx polling: every 10s fetch this same page and swap only the table (#rooms) %>
-<%= render "rooms/list", rooms: @rooms %>
+  <%# htmx polling: every 10s fetch this same page and swap only the list (#rooms) %>
+  <%= render "rooms/list", rooms: @rooms %>
+</div>

@@ -5,30 +5,25 @@
 <div id="refresh"></div>
 
 <div id="room" class="room">
-  <section class="board-area">
-    <hgroup>
-      <h2><%= @room.name %></h2>
-      <p><%= link_to "← todas as salas", root_path %></p>
-    </hgroup>
-    <%= render "rooms/board", room: @room, selected: nil, promotion: nil %>
-  </section>
+  <%# The board pane is the master window; the rest stack in the right column. %>
+  <%= render "rooms/board", room: @room, selected: nil, promotion: nil %>
 
-  <aside class="side">
-    <%= render "rooms/game_info", room: @room, oob: false %>
-    <%= render "rooms/me", room: @room, oob: false, prediction: @prediction %>
+  <%# Clock panes + moves pane (one out-of-band unit, display: contents) %>
+  <%= render "rooms/game_info", room: @room, oob: false %>
 
-    <article class="chat">
-      <header><strong>Chat</strong></header>
-      <div id="messages" class="messages" data-controller="chat">
-        <%= render @messages %>
+  <%= render "rooms/me", room: @room, oob: false, prediction: @prediction %>
+
+  <section class="pane pane-chat" aria-label="Chat">
+    <div class="pane-head"><span class="title">chat</span><span><%= @messages.size %> msgs</span></div>
+    <div id="messages" class="messages" data-controller="chat">
+      <%= render @messages %>
+    </div>
+    <form hx-post="<%= room_messages_path(@room) %>" hx-swap="none"
+          hx-on::after-request="if (event.detail.successful) this.reset()">
+      <div class="field">
+        <input type="text" name="body" placeholder="diga algo…" maxlength="300" required autocomplete="off" aria-label="Mensagem">
+        <button type="submit">enviar</button>
       </div>
-      <form hx-post="<%= room_messages_path(@room) %>" hx-swap="none"
-            hx-on::after-request="if (event.detail.successful) this.reset()">
-        <fieldset role="group">
-          <input type="text" name="body" placeholder="Diga algo…" maxlength="300" required autocomplete="off">
-          <button type="submit">Enviar</button>
-        </fieldset>
-      </form>
-    </article>
-  </aside>
+    </form>
+  </section>
 </div>

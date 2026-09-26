@@ -1,36 +1,73 @@
-<% counts = room.prediction_counts %>
-<article id="game_info" <%= 'hx-swap-oob="true"'.html_safe if oob %>>
-  <header><strong><%= room.status_text %></strong> <%= theme_badge(room.theme) %></header>
-  <%# Clocks count down in the browser (clock_controller) from the server's numbers;
-      when one hits zero the client asks for the state and the server flags the game. %>
-  <div class="players" data-controller="clock" data-clock-state-url-value="<%= state_room_path(room) %>">
-    <% %i[white black].each do |color| %>
-      <div class="player-row <%= 'to-move' if room.playing? && room.turn == color %>">
-        <span><%= color == :white ? "♙ Brancas" : "♟ Pretas" %>: <%= crowned_name(room.name_of(color), room.public_send("#{color}_token")) %></span>
+<%
+  counts       = room.prediction_counts
+  viewer_color = room.color_of(player_token)
+  # Opponent on top, the viewer (or white, for spectators) at the bottom.
+  bottom = viewer_color == :black ? :black : :white
+  top    = bottom == :white ? :black : :white
+  total  = counts.values.sum
+%>
+<%# One out-of-band unit: display: contents lets the panes take their own grid areas. %>
+<div id="game_info" <%= 'hx-swap-oob="true"'.html_safe if oob %>
+     data-controller="clock" data-clock-state-url-value="<%= state_room_path(room) %>">
+  <% { top => "top", bottom => "bottom" }.each do |color, pos| %>
+    <%
+      to_move = room.playing? && room.turn == color
+      name    = room.public_send("#{color}_name").presence
+    %>
+    <section class="pane pane-clock <%= 'active' if to_move %>" data-pos="<%= pos %>" data-side="<%= color %>"
+             aria-label="<%= color_name(color) %>">
+      <div class="pane-body">
+        <div class="who">
+          <span class="side"><span class="glyph"><%= color == :white ? "♙" : "♟" %></span><%= color_name(color) %><%= " · a jogar" if to_move %></span>
+          <% if name.present? %>
+            <span class="name"><%= crowned_name(name, room.public_send("#{color}_token")) %></span>
+          <% else %>
+            <span class="name empty">cadeira vazia</span>
+          <% end %>
+        </div>
+        <%# Clocks count down in the browser (clock_controller) from the server's numbers;
+            when one hits zero the client asks for the state and the server flags the game. %>
         <% if room.remaining_ms(color) %>
           <span class="clock" data-clock-target="<%= color %>" data-ms="<%= room.remaining_ms(color) %>"
                 data-running="<%= room.clock_running?(color) %>"></span>
         <% else %>
-          <span class="clock"><%= room.time_control_text %></span>
+          <span class="clock idle"><%= room.time_control_text %></span>
         <% end %>
       </div>
+    </section>
+  <% end %>
+
+  <section class="pane pane-moves" aria-label="Lances">
+    <div class="pane-head">
+      <span class="title">lances</span>
+      <span><%= room.moves.size %></span>
+    </div>
+    <% if total > 0 %>
+      <div class="pane-body crowd" style="padding: 8px var(--pad); border-bottom: 1px solid var(--border);">
+        <span>torcida</span>
+        <span>♙ <%= counts[:white] %></span>
+        <span class="crowd-bar" aria-hidden="true">
+          <span class="w" style="flex: <%= counts[:white] %>"></span>
+          <span class="b" style="flex: <%= counts[:black] %>"></span>
+        </span>
+        <span><%= counts[:black] %> ♟</span>
+        <% if room.predictions_open? %><span class="muted">até o lance <%= Arena::PREDICTION_DEADLINE %></span><% end %>
+      </div>
     <% end %>
-  </div>
-  <% if counts.values.sum > 0 %>
-    <p class="crowd"><small>Torcida: ♙ <%= counts[:white] %> · ♟ <%= counts[:black] %><%= " · palpites abertos até o lance #{Arena::PREDICTION_DEADLINE}" if room.predictions_open? %></small></p>
-  <% end %>
-  <% if room.moves.any? || room.theme.moves.any? %>
-    <details open>
-      <summary>Lances (<%= room.moves.size %>)</summary>
-      <ol class="moves">
-        <% room.move_pairs.each do |n, white, black| %>
-          <li>
-            <% [ white, black ].compact.each do |san, preset| %>
-              <span class="<%= 'preset' if preset %>"><%= san %></span>
-            <% end %>
-          </li>
-        <% end %>
-      </ol>
-    </details>
-  <% end %>
-</article>
+    <div class="pane-body">
+      <% if room.moves.any? || room.theme.moves.any? %>
+        <ol class="moves">
+          <% room.move_pairs.each do |n, white, black| %>
+            <li>
+              <% [ white, black ].compact.each do |san, preset| %>
+                <span class="<%= 'preset' if preset %>"><%= san %></span>
+              <% end %>
+            </li>
+          <% end %>
+        </ol>
+      <% else %>
+        <p class="moves-empty"><%= room.playing? ? "nenhum lance ainda" : "a partida começa quando as duas cadeiras estiverem ocupadas" %></p>
+      <% end %>
+    </div>
+  </section>
+</div>

@@ -1,7 +1,9 @@
 <div id="room">
-  <article>
-    <h2>Sala fechada</h2>
-    <p>A sala <strong><%= room.name %></strong> foi encerrada.</p>
-    <%= link_to "Voltar para as salas", root_path, role: "button" %>
-  </article>
+  <section class="pane" style="max-width: 32rem;">
+    <div class="pane-head"><span class="title">sala fechada</span></div>
+    <div class="pane-body stack">
+      <p>A sala <strong><%= room.name %></strong> foi encerrada.</p>
+      <p><%= link_to "voltar para as salas", root_path, role: "button" %></p>
+    </div>
+  </section>
 </div>

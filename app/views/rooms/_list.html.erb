@@ -1,22 +1,25 @@
-<div id="rooms" hx-get="<%= root_path %>" hx-trigger="every 10s" hx-select="#rooms" hx-swap="outerHTML">
+<section id="rooms" class="pane" aria-label="Salas" hx-get="<%= root_path %>" hx-trigger="every 10s" hx-select="#rooms" hx-swap="outerHTML">
+  <div class="pane-head"><span class="title">salas</span><span><%= rooms.size %></span></div>
   <% if rooms.empty? %>
-    <p>Nenhuma sala ainda. Crie a primeira!</p>
+    <div class="pane-body"><p class="empty">Nenhuma sala ainda. Crie a primeira!</p></div>
   <% else %>
-    <table>
-      <thead>
-        <tr><th>Sala</th><th>Brancas</th><th>Pretas</th><th>Situação</th><th></th></tr>
-      </thead>
-      <tbody>
-        <% rooms.each do |room| %>
-          <tr>
-            <td><%= link_to room.name, room %> <small><%= room.time_control_text %></small> <%= theme_badge(room.theme) %></td>
-            <td><%= crowned_name(room.name_of(:white), room.white_token) %></td>
-            <td><%= crowned_name(room.name_of(:black), room.black_token) %></td>
-            <td><%= room.status_text %></td>
-            <td><%= link_to(room.full? ? "Assistir" : "Entrar", room, role: "button", class: "outline") %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>sala</th><th>brancas</th><th>pretas</th><th>situação</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% rooms.each do |room| %>
+            <tr>
+              <td><%= link_to room.name, room, class: "room-link" %> <small><%= room.time_control_text %></small> <%= theme_badge(room.theme) %></td>
+              <td><%= crowned_name(room.name_of(:white), room.white_token).presence || tag.span("—", class: "muted") %></td>
+              <td><%= crowned_name(room.name_of(:black), room.black_token).presence || tag.span("—", class: "muted") %></td>
+              <td class="text-2"><%= room.status_text %></td>
+              <td class="right"><%= link_to(room.full? ? "assistir" : "entrar", room, role: "button", class: "small #{'outline' if room.full?}") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% end %>
-</div>
+</section>

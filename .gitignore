@@ -33,3 +33,8 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+
+# Impeccable scratch (screenshots and live-mode state); surfaces, config and design.json are kept.
+/.impeccable/review/
+/.impeccable/live/
+/.impeccable/config.local.json

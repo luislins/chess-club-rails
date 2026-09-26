@@ -1,10 +1,12 @@
 <% content_for :title, "FAQ · Chess Club" %>
-<hgroup>
+<% content_for :main_class, "narrow" %>
+<div class="stack">
+<div class="page-head">
   <h1>Perguntas frequentes</h1>
   <p>Tudo o que você precisa saber para jogar na arena.</p>
-</hgroup>
+</div>
 
-<article class="faq">
+<section class="pane faq" aria-label="Perguntas frequentes">
   <h3>O básico</h3>
   <details>
     <summary>O que é o Chess Club?</summary>
@@ -59,7 +61,7 @@
   <h3>Tema do dia</h3>
   <details>
     <summary>O que muda de um dia para o outro?</summary>
-    <p>De segunda a sexta (menos quarta) e domingo é xadrez clássico. <strong>Quarta</strong> é a abertura do dia: todas as partidas começam depois de uma abertura famosa já jogada. <strong>Sábado</strong> é especial: um dia sem damas, outro só com reis e peões. Hoje: <%= @theme.name %>.</p>
+    <p>De segunda a sexta (menos quarta) e domingo é xadrez clássico. <strong>Quarta</strong> é a abertura do dia: todas as partidas começam depois de uma abertura famosa já jogada. <strong>Sábado</strong> é especial: um dia sem damas, outro só com reis e peões. Hoje: <%= @theme.name %>. Ao criar uma sala você pode escolher qualquer outro tema; o do dia é só o padrão.</p>
   </details>
   <details>
     <summary>Tem Chess960?</summary>
@@ -89,4 +91,5 @@
     <summary>O que vocês guardam sobre mim?</summary>
     <p>Um identificador aleatório no cookie, o nome que você escolheu, os resultados das partidas e os palpites do dia. As mensagens do chat somem junto com a sala. Nada de e-mail, senha ou dados pessoais.</p>
   </details>
-</article>
+</section>
+</div>

@@ -1,0 +1,621 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-26T04:50:46Z",
+  "title": "Design System: Chess Club",
+  "extensions": {
+    "colorMeta": {
+      "night-ground": {
+        "role": "neutral",
+        "displayName": "Night Ground",
+        "canonical": "oklch(22.6% 0.021 280)",
+        "tonalRamp": [
+          "oklch(15% 0.021 280)",
+          "oklch(26% 0.021 280)",
+          "oklch(38% 0.021 280)",
+          "oklch(49% 0.021 280)",
+          "oklch(60% 0.021 280)",
+          "oklch(72% 0.021 280)",
+          "oklch(83% 0.021 280)",
+          "oklch(95% 0.021 280)"
+        ]
+      },
+      "bar-deep": {
+        "role": "neutral",
+        "displayName": "Bar Deep",
+        "canonical": "oklch(20.4% 0.016 285)",
+        "tonalRamp": [
+          "oklch(15% 0.016 285)",
+          "oklch(26% 0.016 285)",
+          "oklch(38% 0.016 285)",
+          "oklch(49% 0.016 285)",
+          "oklch(60% 0.016 285)",
+          "oklch(72% 0.016 285)",
+          "oklch(83% 0.016 285)",
+          "oklch(95% 0.016 285)"
+        ]
+      },
+      "pane": {
+        "role": "neutral",
+        "displayName": "Pane",
+        "canonical": "oklch(26.1% 0.034 274)",
+        "tonalRamp": [
+          "oklch(15% 0.034 274)",
+          "oklch(26% 0.034 274)",
+          "oklch(38% 0.034 274)",
+          "oklch(49% 0.034 274)",
+          "oklch(60% 0.034 274)",
+          "oklch(72% 0.034 274)",
+          "oklch(83% 0.034 274)",
+          "oklch(95% 0.034 274)"
+        ]
+      },
+      "raised": {
+        "role": "neutral",
+        "displayName": "Raised",
+        "canonical": "oklch(28.2% 0.036 275)",
+        "tonalRamp": [
+          "oklch(15% 0.036 275)",
+          "oklch(26% 0.036 275)",
+          "oklch(38% 0.036 275)",
+          "oklch(49% 0.036 275)",
+          "oklch(60% 0.036 275)",
+          "oklch(72% 0.036 275)",
+          "oklch(83% 0.036 275)",
+          "oklch(95% 0.036 275)"
+        ]
+      },
+      "hover": {
+        "role": "neutral",
+        "displayName": "Hover",
+        "canonical": "oklch(30.6% 0.037 273)",
+        "tonalRamp": [
+          "oklch(15% 0.037 273)",
+          "oklch(26% 0.037 273)",
+          "oklch(38% 0.037 273)",
+          "oklch(49% 0.037 273)",
+          "oklch(60% 0.037 273)",
+          "oklch(72% 0.037 273)",
+          "oklch(83% 0.037 273)",
+          "oklch(95% 0.037 273)"
+        ]
+      },
+      "hairline": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(38.7% 0.054 274)",
+        "tonalRamp": [
+          "oklch(15% 0.054 274)",
+          "oklch(26% 0.054 274)",
+          "oklch(38% 0.054 274)",
+          "oklch(49% 0.054 274)",
+          "oklch(60% 0.054 274)",
+          "oklch(72% 0.054 274)",
+          "oklch(83% 0.054 274)",
+          "oklch(95% 0.054 274)"
+        ]
+      },
+      "hairline-hi": {
+        "role": "neutral",
+        "displayName": "Hairline High",
+        "canonical": "oklch(48.2% 0.056 274)",
+        "tonalRamp": [
+          "oklch(15% 0.056 274)",
+          "oklch(26% 0.056 274)",
+          "oklch(38% 0.056 274)",
+          "oklch(49% 0.056 274)",
+          "oklch(60% 0.056 274)",
+          "oklch(72% 0.056 274)",
+          "oklch(83% 0.056 274)",
+          "oklch(95% 0.056 274)"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Lavender Text",
+        "canonical": "oklch(84.6% 0.061 275)",
+        "tonalRamp": [
+          "oklch(15% 0.061 275)",
+          "oklch(26% 0.061 275)",
+          "oklch(38% 0.061 275)",
+          "oklch(49% 0.061 275)",
+          "oklch(60% 0.061 275)",
+          "oklch(72% 0.061 275)",
+          "oklch(83% 0.061 275)",
+          "oklch(95% 0.061 275)"
+        ]
+      },
+      "text-soft": {
+        "role": "neutral",
+        "displayName": "Soft Lavender",
+        "canonical": "oklch(72.8% 0.061 273)",
+        "tonalRamp": [
+          "oklch(15% 0.061 273)",
+          "oklch(26% 0.061 273)",
+          "oklch(38% 0.061 273)",
+          "oklch(49% 0.061 273)",
+          "oklch(60% 0.061 273)",
+          "oklch(72% 0.061 273)",
+          "oklch(83% 0.061 273)",
+          "oklch(95% 0.061 273)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Lavender",
+        "canonical": "oklch(67.1% 0.063 275)",
+        "tonalRamp": [
+          "oklch(15% 0.063 275)",
+          "oklch(26% 0.063 275)",
+          "oklch(38% 0.063 275)",
+          "oklch(49% 0.063 275)",
+          "oklch(60% 0.063 275)",
+          "oklch(72% 0.063 275)",
+          "oklch(83% 0.063 275)",
+          "oklch(95% 0.063 275)"
+        ]
+      },
+      "blue": {
+        "role": "primary",
+        "displayName": "Night Blue",
+        "canonical": "oklch(71.9% 0.132 264)",
+        "tonalRamp": [
+          "oklch(15% 0.132 264)",
+          "oklch(26% 0.132 264)",
+          "oklch(38% 0.132 264)",
+          "oklch(49% 0.132 264)",
+          "oklch(60% 0.132 264)",
+          "oklch(72% 0.132 264)",
+          "oklch(83% 0.132 264)",
+          "oklch(95% 0.132 264)"
+        ]
+      },
+      "blue-hover": {
+        "role": "primary",
+        "displayName": "Night Blue Light",
+        "canonical": "oklch(77.0% 0.116 264)",
+        "tonalRamp": [
+          "oklch(15% 0.116 264)",
+          "oklch(26% 0.116 264)",
+          "oklch(38% 0.116 264)",
+          "oklch(49% 0.116 264)",
+          "oklch(60% 0.116 264)",
+          "oklch(72% 0.116 264)",
+          "oklch(83% 0.116 264)",
+          "oklch(95% 0.116 264)"
+        ]
+      },
+      "cyan": {
+        "role": "tertiary",
+        "displayName": "Sky Cyan",
+        "canonical": "oklch(82.0% 0.105 236)",
+        "tonalRamp": [
+          "oklch(15% 0.105 236)",
+          "oklch(26% 0.105 236)",
+          "oklch(38% 0.105 236)",
+          "oklch(49% 0.105 236)",
+          "oklch(60% 0.105 236)",
+          "oklch(72% 0.105 236)",
+          "oklch(83% 0.105 236)",
+          "oklch(95% 0.105 236)"
+        ]
+      },
+      "orange": {
+        "role": "secondary",
+        "displayName": "Ember Orange",
+        "canonical": "oklch(78.7% 0.137 51)",
+        "tonalRamp": [
+          "oklch(15% 0.137 51)",
+          "oklch(26% 0.137 51)",
+          "oklch(38% 0.137 51)",
+          "oklch(49% 0.137 51)",
+          "oklch(60% 0.137 51)",
+          "oklch(72% 0.137 51)",
+          "oklch(83% 0.137 51)",
+          "oklch(95% 0.137 51)"
+        ]
+      },
+      "red": {
+        "role": "tertiary",
+        "displayName": "Rose Red",
+        "canonical": "oklch(72.3% 0.159 10)",
+        "tonalRamp": [
+          "oklch(15% 0.159 10)",
+          "oklch(26% 0.159 10)",
+          "oklch(38% 0.159 10)",
+          "oklch(49% 0.159 10)",
+          "oklch(60% 0.159 10)",
+          "oklch(72% 0.159 10)",
+          "oklch(83% 0.159 10)",
+          "oklch(95% 0.159 10)"
+        ]
+      },
+      "green": {
+        "role": "tertiary",
+        "displayName": "Moss Green",
+        "canonical": "oklch(79.5% 0.139 130)",
+        "tonalRamp": [
+          "oklch(15% 0.139 130)",
+          "oklch(26% 0.139 130)",
+          "oklch(38% 0.139 130)",
+          "oklch(49% 0.139 130)",
+          "oklch(60% 0.139 130)",
+          "oklch(72% 0.139 130)",
+          "oklch(83% 0.139 130)",
+          "oklch(95% 0.139 130)"
+        ]
+      },
+      "yellow": {
+        "role": "tertiary",
+        "displayName": "Amber Yellow",
+        "canonical": "oklch(78.4% 0.106 75)",
+        "tonalRamp": [
+          "oklch(15% 0.106 75)",
+          "oklch(26% 0.106 75)",
+          "oklch(38% 0.106 75)",
+          "oklch(49% 0.106 75)",
+          "oklch(60% 0.106 75)",
+          "oklch(72% 0.106 75)",
+          "oklch(83% 0.106 75)",
+          "oklch(95% 0.106 75)"
+        ]
+      },
+      "purple": {
+        "role": "tertiary",
+        "displayName": "Lilac Purple",
+        "canonical": "oklch(75.1% 0.134 299)",
+        "tonalRamp": [
+          "oklch(15% 0.134 299)",
+          "oklch(26% 0.134 299)",
+          "oklch(38% 0.134 299)",
+          "oklch(49% 0.134 299)",
+          "oklch(60% 0.134 299)",
+          "oklch(72% 0.134 299)",
+          "oklch(83% 0.134 299)",
+          "oklch(95% 0.134 299)"
+        ]
+      },
+      "sq-light": {
+        "role": "neutral",
+        "displayName": "Square Light",
+        "canonical": "oklch(45.0% 0.062 273)",
+        "tonalRamp": [
+          "oklch(15% 0.062 273)",
+          "oklch(26% 0.062 273)",
+          "oklch(38% 0.062 273)",
+          "oklch(49% 0.062 273)",
+          "oklch(60% 0.062 273)",
+          "oklch(72% 0.062 273)",
+          "oklch(83% 0.062 273)",
+          "oklch(95% 0.062 273)"
+        ]
+      },
+      "sq-dark": {
+        "role": "neutral",
+        "displayName": "Square Dark",
+        "canonical": "oklch(33.0% 0.052 276)",
+        "tonalRamp": [
+          "oklch(15% 0.052 276)",
+          "oklch(26% 0.052 276)",
+          "oklch(38% 0.052 276)",
+          "oklch(49% 0.052 276)",
+          "oklch(60% 0.052 276)",
+          "oklch(72% 0.052 276)",
+          "oklch(83% 0.052 276)",
+          "oklch(95% 0.052 276)"
+        ]
+      },
+      "piece-white": {
+        "role": "neutral",
+        "displayName": "Piece White",
+        "canonical": "oklch(94.6% 0.026 276)",
+        "tonalRamp": [
+          "oklch(15% 0.026 276)",
+          "oklch(26% 0.026 276)",
+          "oklch(38% 0.026 276)",
+          "oklch(49% 0.026 276)",
+          "oklch(60% 0.026 276)",
+          "oklch(72% 0.026 276)",
+          "oklch(83% 0.026 276)",
+          "oklch(95% 0.026 276)"
+        ]
+      },
+      "piece-black": {
+        "role": "neutral",
+        "displayName": "Piece Black",
+        "canonical": "oklch(18.1% 0.019 279)",
+        "tonalRamp": [
+          "oklch(15% 0.019 279)",
+          "oklch(26% 0.019 279)",
+          "oklch(38% 0.019 279)",
+          "oklch(49% 0.019 279)",
+          "oklch(60% 0.019 279)",
+          "oklch(72% 0.019 279)",
+          "oklch(83% 0.019 279)",
+          "oklch(95% 0.019 279)"
+        ]
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Selection",
+        "canonical": "oklch(40.6% 0.094 268)",
+        "tonalRamp": [
+          "oklch(15% 0.094 268)",
+          "oklch(26% 0.094 268)",
+          "oklch(38% 0.094 268)",
+          "oklch(49% 0.094 268)",
+          "oklch(60% 0.094 268)",
+          "oklch(72% 0.094 268)",
+          "oklch(83% 0.094 268)",
+          "oklch(95% 0.094 268)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The chess-club wordmark on the welcome pane only."
+      },
+      "clock": {
+        "displayName": "Clock",
+        "purpose": "Remaining time in a clock pane; 2rem at 860px and below."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page-level h1."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "h2 and the idle clock text."
+      },
+      "subtitle": {
+        "displayName": "Subtitle",
+        "purpose": "h3 and the room name inside the board pane head."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All reading text, buttons, inputs, table cells, chat, the move log."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Lowercase pane-head titles, table headers, chips."
+      },
+      "meta": {
+        "displayName": "Meta",
+        "purpose": "small, pane-head values, side labels, stats."
+      }
+    },
+    "shadows": [
+      {
+        "name": "ring-active",
+        "value": "inset 0 0 0 1px var(--active, var(--blue))",
+        "purpose": "Inset stroke, not elevation: doubles the active clock pane's border in the side color."
+      },
+      {
+        "name": "ring-selected",
+        "value": "inset 0 0 0 3px var(--yellow)",
+        "purpose": "Inset stroke on the selected board square."
+      },
+      {
+        "name": "ring-capture",
+        "value": "inset 0 0 0 3px var(--cyan)",
+        "purpose": "Inset stroke on a capturable target square (90% opacity)."
+      },
+      {
+        "name": "underline-current",
+        "value": "inset 0 -2px 0 var(--blue)",
+        "purpose": "2px bottom stroke under the current nav tag."
+      },
+      {
+        "name": "piece-edge-white",
+        "value": "text-shadow: 0 0 1px rgba(16, 17, 26, .8)",
+        "purpose": "Hairline dark edge on white piece glyphs."
+      },
+      {
+        "name": "piece-edge-black",
+        "value": "text-shadow: 0 0 1px rgba(192, 202, 245, .9), 0 0 1px rgba(192, 202, 245, .9)",
+        "purpose": "Hairline light edge so black pieces stay visible on dark squares."
+      }
+    ],
+    "motion": [
+      {
+        "name": "t",
+        "value": "150ms cubic-bezier(.2, .7, .2, 1)",
+        "purpose": "The only transition: border-color, background-color, color, opacity on state change."
+      },
+      {
+        "name": "blink",
+        "value": "blink 1s steps(2, jump-none) infinite (50% { opacity: .35 })",
+        "purpose": "Low clock under a minute. Disabled under prefers-reduced-motion along with every transition."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "room-stack",
+        "value": "860px",
+        "purpose": "Room and arena-row become one column; tables tighten; clock drops to 2rem."
+      },
+      {
+        "name": "cols-stack",
+        "value": "760px",
+        "purpose": "cols-2 stacks; main.narrow max width."
+      },
+      {
+        "name": "bar-compress",
+        "value": "700px",
+        "purpose": "Brand text and separator hide; nav tag padding 8px."
+      },
+      {
+        "name": "phone",
+        "value": "520px",
+        "purpose": "Nickname form leaves the bar; new-room field wraps; pane-head stats wrap."
+      },
+      {
+        "name": "container",
+        "value": "1440px",
+        "purpose": "main max width."
+      }
+    ],
+    "layout": {
+      "gap": "12px",
+      "pad": "12px",
+      "barHeight": "40px",
+      "roomColumns": "minmax(0, auto) minmax(300px, 360px)",
+      "boardWidth": "min(100%, calc(100dvh - var(--bar-h) - 92px))"
+    }
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled control: seat, create room, enter the arena. Blue fill, night-ground label, bold.",
+      "html": "<button class=\"ds-btn-primary\">entrar na arena</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5ch;min-height:32px;padding:0 12px;font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);font-variant-numeric:tabular-nums;border:1px solid var(--border, #3b4261);border-radius:0;cursor:pointer;white-space:nowrap;transition:border-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),background-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),color var(--t, 150ms cubic-bezier(.2,.7,.2,1));background:var(--blue, #7aa2f7);border-color:var(--blue, #7aa2f7);color:var(--bg, #1a1b26);font-weight:700;}.ds-btn-primary:hover{background:#8fb3ff;border-color:#8fb3ff;}.ds-btn-primary:active{background:var(--blue, #7aa2f7);}.ds-btn-primary:focus-visible{outline:2px solid var(--blue, #7aa2f7);outline-offset:1px;}"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button-default",
+      "description": "Every ordinary action (send, prediction, table actions): raised fill, hairline border, brighter on hover.",
+      "html": "<button class=\"ds-btn\">enviar</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5ch;min-height:32px;padding:0 12px;font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);font-variant-numeric:tabular-nums;border:1px solid var(--border, #3b4261);border-radius:0;cursor:pointer;white-space:nowrap;transition:border-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),background-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),color var(--t, 150ms cubic-bezier(.2,.7,.2,1));background:var(--raised, #24283b);color:var(--text, #c0caf5);}.ds-btn:hover{border-color:var(--border-hi, #545c7e);background:var(--hover, #292e42);}.ds-btn:active{background:var(--border, #3b4261);}.ds-btn:disabled{opacity:.5;cursor:not-allowed;}.ds-btn:focus-visible{outline:2px solid var(--blue, #7aa2f7);outline-offset:1px;}"
+    },
+    {
+      "name": "Outline Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Resign / leave: transparent fill, hairline border, red text; the border turns red and the fill washes 8% red on hover.",
+      "html": "<button class=\"ds-btn-danger\">desistir</button>",
+      "css": ".ds-btn-danger{display:inline-flex;align-items:center;justify-content:center;gap:.5ch;min-height:32px;padding:0 12px;font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);font-variant-numeric:tabular-nums;border:1px solid var(--border, #3b4261);border-radius:0;cursor:pointer;white-space:nowrap;transition:border-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),background-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),color var(--t, 150ms cubic-bezier(.2,.7,.2,1));background:transparent;color:var(--red, #f7768e);}.ds-btn-danger:hover{border-color:var(--red, #f7768e);background:rgba(247,118,142,.08);}.ds-btn-danger:active{background:var(--border, #3b4261);}.ds-btn-danger:focus-visible{outline:2px solid var(--blue, #7aa2f7);outline-offset:1px;}"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input-text",
+      "description": "A well one step below the ground; hairline border brightens on hover and turns blue on focus (no outline).",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"nome da sala\" aria-label=\"Nome da sala\">",
+      "css": ".ds-input{min-height:32px;padding:4px 8px;font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);font-variant-numeric:tabular-nums;background:var(--bg-deep, #16161e);color:var(--text, #c0caf5);border:1px solid var(--border, #3b4261);border-radius:0;caret-color:var(--blue, #7aa2f7);transition:border-color var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-input::placeholder{color:var(--muted, #8a93bd);}.ds-input:hover{border-color:var(--border-hi, #545c7e);}.ds-input:focus{outline:none;border-color:var(--blue, #7aa2f7);}.ds-input[aria-invalid=\"true\"]{border-color:var(--red, #f7768e);}"
+    },
+    {
+      "name": "Bar Tag (nav item)",
+      "kind": "nav",
+      "refersTo": "bar-tag",
+      "description": "Workspace tags in the 40px Waybar: lowercase, soft text, raised fill on hover, raised fill plus a 2px blue underline when current.",
+      "html": "<nav class=\"ds-bar\"><a class=\"ds-bar-brand\" href=\"#\"><span class=\"ds-knight\">♞</span>chess-club</a><a class=\"ds-bar-tag\" href=\"#\" aria-current=\"page\">salas</a><a class=\"ds-bar-tag\" href=\"#\">hoje</a><a class=\"ds-bar-tag\" href=\"#\">hall</a><a class=\"ds-bar-tag\" href=\"#\">faq</a></nav>",
+      "css": ".ds-bar{display:flex;align-items:stretch;gap:2px;height:40px;padding:0 12px;background:var(--bg-deep, #16161e);border-bottom:1px solid var(--border, #3b4261);font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);}.ds-bar a{display:flex;align-items:center;height:100%;padding:0 10px;color:var(--text-2, #9aa5ce);text-decoration:none;white-space:nowrap;transition:background-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),color var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-bar-brand{color:var(--blue, #7aa2f7) !important;font-weight:700;padding-left:0 !important;padding-right:14px !important;}.ds-knight{font-size:1.15em;line-height:1;margin-right:.5ch;color:var(--text, #c0caf5);}.ds-bar-tag:hover{color:var(--text, #c0caf5);background:var(--raised, #24283b);}.ds-bar-tag[aria-current=\"page\"]{color:var(--text, #c0caf5);background:var(--raised, #24283b);box-shadow:inset 0 -2px 0 var(--blue, #7aa2f7);}.ds-bar a:focus-visible{outline:2px solid var(--blue, #7aa2f7);outline-offset:1px;}"
+    },
+    {
+      "name": "Pane",
+      "kind": "card",
+      "refersTo": "pane",
+      "description": "The universal container: pane fill, 1px hairline, radius 0, a 30px head with a lowercase title and a value, 12px body.",
+      "html": "<section class=\"ds-pane\"><div class=\"ds-pane-head\"><span class=\"ds-pane-title\">lances</span><span>12</span></div><div class=\"ds-pane-body\">A partida começa quando as duas cadeiras estiverem ocupadas.</div></section>",
+      "css": ".ds-pane{min-width:0;background:var(--pane, #1f2335);border:1px solid var(--border, #3b4261);color:var(--text, #c0caf5);font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);font-variant-numeric:tabular-nums;transition:border-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),box-shadow var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-pane-head{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:30px;padding:6px 12px;border-bottom:1px solid var(--border, #3b4261);font-size:var(--fs-0, .75rem);color:var(--muted, #8a93bd);}.ds-pane-title{color:var(--text-2, #9aa5ce);font-weight:700;letter-spacing:.02em;white-space:nowrap;}.ds-pane-body{padding:12px;}.ds-pane-body+.ds-pane-body{border-top:1px solid var(--border, #3b4261);}.ds-pane.active{border-color:var(--active, var(--blue, #7aa2f7));box-shadow:inset 0 0 0 1px var(--active, var(--blue, #7aa2f7));}.ds-pane.active>.ds-pane-head{border-bottom-color:var(--active, var(--blue, #7aa2f7));}"
+    },
+    {
+      "name": "Tag Chip",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Outlined in currentColor, no fill; the text color is the variant. Purple is the theme of the day.",
+      "html": "<span class=\"ds-tag ds-tag-purple\">Especial: Batalha de peões</span> <span class=\"ds-tag ds-tag-green\">acertou</span> <span class=\"ds-tag ds-tag-red\">desistiu</span> <span class=\"ds-tag ds-tag-yellow\">líder</span> <span class=\"ds-tag ds-tag-muted\">10 min</span>",
+      "css": ".ds-tag{display:inline-block;padding:0 6px;line-height:20px;font:700 var(--fs-0, .75rem)/20px var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);border:1px solid currentColor;vertical-align:middle;white-space:nowrap;color:var(--text-2, #9aa5ce);}.ds-tag-purple{color:var(--purple, #bb9af7);}.ds-tag-green{color:var(--green, #9ece6a);}.ds-tag-red{color:var(--red, #f7768e);}.ds-tag-blue{color:var(--blue, #7aa2f7);}.ds-tag-yellow{color:var(--yellow, #e0af68);}.ds-tag-muted{color:var(--muted, #8a93bd);}"
+    },
+    {
+      "name": "Clock Pane",
+      "kind": "custom",
+      "refersTo": "clock-digits",
+      "description": "Signature: side glyph and label over the name, big tabular digits at right. The side to move carries the active-window border in its side color; under a minute the digits blink red.",
+      "html": "<section class=\"ds-clock ds-clock-active\" data-side=\"white\"><div class=\"ds-clock-body\"><div class=\"ds-clock-who\"><span class=\"ds-clock-side\"><span class=\"ds-clock-glyph\">♙</span>Brancas · a jogar</span><span class=\"ds-clock-name\">ana</span></div><span class=\"ds-clock-digits\">04:37</span></div></section><section class=\"ds-clock\" data-side=\"black\" style=\"margin-top:12px\"><div class=\"ds-clock-body\"><div class=\"ds-clock-who\"><span class=\"ds-clock-side\"><span class=\"ds-clock-glyph\">♟</span>Pretas</span><span class=\"ds-clock-name\">bruno</span></div><span class=\"ds-clock-digits ds-clock-low\">00:41</span></div></section>",
+      "css": ".ds-clock{min-width:0;background:var(--pane, #1f2335);border:1px solid var(--border, #3b4261);color:var(--text, #c0caf5);font:400 var(--fs-1, .8125rem)/1.5 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);font-variant-numeric:tabular-nums;transition:border-color var(--t, 150ms cubic-bezier(.2,.7,.2,1)),box-shadow var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-clock[data-side=\"white\"]{--active:var(--white-side, #7aa2f7);}.ds-clock[data-side=\"black\"]{--active:var(--black-side, #ff9e64);}.ds-clock-body{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;}.ds-clock-who{display:flex;flex-direction:column;gap:2px;min-width:0;}.ds-clock-side{font-size:var(--fs-0, .75rem);color:var(--muted, #8a93bd);transition:color var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-clock-glyph{font-size:1.1em;margin-right:.5ch;}.ds-clock-name{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ds-clock-digits{font-size:var(--fs-clock, 2.75rem);font-weight:700;line-height:1;letter-spacing:-0.02em;color:var(--text-2, #9aa5ce);transition:color var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-clock-active{border-color:var(--active);box-shadow:inset 0 0 0 1px var(--active);}.ds-clock-active .ds-clock-digits{color:var(--text, #c0caf5);}.ds-clock-active .ds-clock-side{color:var(--active);}.ds-clock-low{color:var(--red, #f7768e) !important;animation:ds-blink 1s steps(2, jump-none) infinite;}@keyframes ds-blink{50%{opacity:.35;}}@media (prefers-reduced-motion: reduce){.ds-clock-low{animation:none;}}"
+    },
+    {
+      "name": "Board Squares",
+      "kind": "custom",
+      "refersTo": "square-light",
+      "description": "Light, dark, selected (3px amber inset ring) and legal-target (cyan dot) squares; a capture target is a 3px cyan inset ring.",
+      "html": "<div class=\"ds-board\"><div class=\"ds-sq ds-sq-light\"></div><div class=\"ds-sq ds-sq-dark ds-sq-selected ds-sq-white-piece\">♘</div><div class=\"ds-sq ds-sq-light ds-sq-target\"></div><div class=\"ds-sq ds-sq-dark ds-sq-target ds-sq-capture ds-sq-black-piece\">♟</div></div>",
+      "css": ".ds-board{display:grid;grid-template-columns:repeat(4, 56px);border:1px solid var(--border, #3b4261);width:max-content;user-select:none;}.ds-sq{position:relative;display:flex;align-items:center;justify-content:center;width:56px;height:56px;font:400 40px/1 var(--mono, \"JetBrains Mono\", ui-monospace, Menlo, monospace);transition:background-color var(--t, 150ms cubic-bezier(.2,.7,.2,1));}.ds-sq-light{background:var(--sq-light, #4a5378);}.ds-sq-dark{background:var(--sq-dark, #2e3350);}.ds-sq:hover{background:var(--hover, #292e42);}.ds-sq-white-piece{color:var(--piece-w, #e8ecff);text-shadow:0 0 1px rgba(16,17,26,.8);}.ds-sq-black-piece{color:var(--piece-b, #10111a);text-shadow:0 0 1px rgba(192,202,245,.9),0 0 1px rgba(192,202,245,.9);}.ds-sq-selected{box-shadow:inset 0 0 0 3px var(--yellow, #e0af68);}.ds-sq-target::after{content:\"\";position:absolute;inset:0;margin:auto;width:28%;height:28%;border-radius:50%;background:var(--cyan, #7dcfff);opacity:.55;}.ds-sq-target.ds-sq-capture::after{width:100%;height:100%;border-radius:0;background:none;box-shadow:inset 0 0 0 3px var(--cyan, #7dcfff);opacity:.9;}.ds-sq-target:hover::after{opacity:1;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Noite de Tóquio no Clube",
+    "overview": "The whole product is one tiling-window-manager workspace in the Omarchy / Tokyo Night spirit. A 40px bar sits on top like a Waybar, the pages below are panes separated by equal 12px gaps and 1px hairlines, and in the game room the board is the master pane while clocks, moves, controls and chat stack beside it. Everything is set in JetBrains Mono with tabular numerals, so digits line up in the clock, the move log and the ranking the way they do in a terminal. Nothing is rounded, nothing casts a shadow, nothing is gradient. The only emphasis the system allows itself is a border that changes color: the pane of the side to move carries the \"active window\" border, blue for white, orange for black, and it jumps between the two clock panes when the turn changes.\n\nThe mood is calm, dense and technical, but not cold. The warmth of a hobby club comes through the copy (short, informal Brazilian Portuguese: \"diga só como quer ser chamado hoje\", \"Torça!\"), through the knight glyph next to the name, and through the small living details (ticking digits, a move log that grows, a crowd bar that fills as spectators guess), never through decoration. Density is a feature: a room shows who plays, whose turn it is, how much time is left, the moves and the chat in one viewport, on desktop and on a phone.\n\nConfirmed rejections: corporate SaaS chrome (cards with drop shadows, gradients, a hero section), the Lichess / Chess.com arrangement (charcoal ground with a green accent), and heavy pages. The build is one hand-written stylesheet, one web font, dark only.",
+    "keyCharacteristics": [
+      "Tiling-workspace topology: panes with 1px borders and equal 12px gaps; the board is the master pane.",
+      "Tokyo Night palette on a blue-night ground; two side colors (blue for white, orange for black) plus five state colors used sparingly.",
+      "JetBrains Mono everywhere, tabular numerals everywhere; lowercase labels.",
+      "Zero radius, no shadows, no gradients; depth is a hairline and the active-window border.",
+      "Motion limited to a 150ms color transition and the low clock blinking red; no page-load choreography."
+    ],
+    "rules": [
+      {
+        "name": "The Two Sides Rule",
+        "body": "Blue is white and orange is black, everywhere a side is named: clock borders, side labels, \"Você joga de\", the crowd bar. No other element borrows a side color, and the sides never swap hues.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Region Rule",
+        "body": "A state color owns a whole region or nothing: the active clock pane's border and label, the entire low clock, the whole resign button. Do not sprinkle an accent across unrelated text.",
+        "section": "colors"
+      },
+      {
+        "name": "The Current-Color Chip Rule",
+        "body": "Chips, tags and flashes are outlined in `currentColor` on the pane surface; the text color is the only thing that changes between variants.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Face Rule",
+        "body": "JetBrains Mono is the only web font and the only family. A new surface never introduces a second face, a serif, or a system display face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Rule",
+        "body": "Every number is tabular. Clocks, points, move numbers and counts must not shift width as they change.",
+        "section": "typography"
+      },
+      {
+        "name": "The Lowercase Label Rule",
+        "body": "Nav tags, pane titles, table headers, chip text and button text are lowercase words (\"salas\", \"lances\", \"criar sala\"), like window titles in a tiling workspace. Sentence case is for prose only.",
+        "section": "typography"
+      },
+      {
+        "name": "The Equal Gap Rule",
+        "body": "Panes are separated by 12px and padded by 12px. No pane has a margin of its own; spacing belongs to the grid.",
+        "section": "layout"
+      },
+      {
+        "name": "The Board Is the Master Rule",
+        "body": "The board pane is sized from the viewport height so it never scrolls; everything else adapts around it.",
+        "section": "layout"
+      },
+      {
+        "name": "The Hairline Rule",
+        "body": "Depth is a 1px `hairline` border or nothing. No drop shadow, no blur, no gradient, no translucent glass.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Active Window Rule",
+        "body": "Emphasis is a border that changes color. The one region that needs attention (the side to move) gets the side color on its border and label; nothing else lights up.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do build every new surface as panes: `pane` fill, 1px `hairline` border, a 30px `pane-head` with a lowercase title at left and a value at right, 12px gaps between panes and 12px padding inside (The Equal Gap Rule).",
+      "Do keep radius at 0 and depth at a hairline; when something needs emphasis, change its border color, as the active clock pane does (The Active Window Rule).",
+      "Do set every number in tabular figures and keep clocks, points and counts in JetBrains Mono (The Tabular Rule).",
+      "Do use `blue` for white and `orange` for black wherever a side is named, and only there (The Two Sides Rule).",
+      "Do give every interactive element the 1px border, the 32px min height, the `hairline-hi` hover and the 2px `blue` focus-visible outline; a `.field` row overlaps borders by 1px.",
+      "Do write labels, nav tags, pane titles and button text as lowercase Portuguese words (\"nova sala\", \"lances\", \"enviar\").",
+      "Do limit motion to the 150ms color transition and the low-clock blink, and honor `prefers-reduced-motion` by turning both off."
+    ],
+    "donts": [
+      "Don't add drop shadows, gradients, blur, glass or rounded corners; the confirmed rejection is SaaS card chrome and a hero section.",
+      "Don't use a charcoal ground with a green accent or otherwise drift toward the Lichess / Chess.com arrangement; the ground is blue-night and green means success only.",
+      "Don't introduce a second typeface, an italic, or a system display face; JetBrains Mono at 400, 700 and 800 is the whole ramp (The One Face Rule).",
+      "Don't let a side color or a state color appear as decoration on unrelated text; a color owns a region or stays out (The One Region Rule).",
+      "Don't give a pane its own margin or a one-off padding; spacing belongs to the 12px grid.",
+      "Don't add page-load choreography, staggered reveals or hover transforms; the workspace is still until the state changes.",
+      "Don't darken `muted` back to Tokyo Night's #565f89; the build lifted it to #8a93bd to clear 4.5:1 on the pane surface."
+    ]
+  }
+}

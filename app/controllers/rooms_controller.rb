@@ -18,7 +18,10 @@ class RoomsController < ApplicationController
       return redirect_to root_path, alert: error
     end
 
-    @room = Room.new(room_params.merge(creator_token: player_token, theme_key: Arena::Theme.for.key))
+    # Rooms default to the theme of the day, but any theme can be picked at creation.
+    theme_key = params.dig(:room, :theme_key).to_s
+    theme_key = Arena::Theme.for.key unless Arena::Theme.valid_key?(theme_key)
+    @room = Room.new(room_params.merge(creator_token: player_token, theme_key: theme_key))
     if @room.save
       redirect_to @room, notice: "Sala criada! Sente-se em uma cadeira para jogar."
     else

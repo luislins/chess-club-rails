@@ -34,6 +34,19 @@ module Arena
     }.freeze
 
     class << self
+      # Every theme a room can be created with: today's first, then classic, openings and specials.
+      # Returns [label, key] pairs ready for a select.
+      def options(day = Arena.today)
+        today = self.for(day)
+        list  = [ [ "Hoje: #{today.name}", today.key ] ]
+        list << [ CLASSIC.name, CLASSIC.key ] unless today.classic?
+        list += OPENINGS.map { |id, (name, _)| [ "Abertura: #{name}", "opening:#{id}" ] }
+        list += SPECIALS.map { |id, (name, _, _)| [ "Especial: #{name}", "special:#{id}" ] }
+        list.uniq(&:last)
+      end
+
+      def valid_key?(key) = options.any? { |_, k| k == key.to_s }
+
       # Theme scheduled for a given day.
       def for(day = Arena.today)
         case day.wday

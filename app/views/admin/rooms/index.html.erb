@@ -1,34 +1,47 @@
 <% content_for :title, "Admin · Chess Club" %>
-<hgroup>
-  <h1>Admin</h1>
-  <p>Salas abertas: <%= @stats[:open] %>/<%= @stats[:max_open] %> · terminadas: <%= @stats[:finished] %> · antigas (removíveis): <%= @stats[:stale] %> · mensagens: <%= @stats[:messages] %></p>
-  <p>Hoje: <%= @stats[:players_today] %> jogadores · <%= @stats[:games_today] %> partidas · <%= @stats[:champions] %> dias no hall da fama</p>
-</hgroup>
+<div class="stack">
+  <div class="page-head">
+    <h1>Admin</h1>
+    <p class="stats">
+      <span>salas abertas <b><%= @stats[:open] %>/<%= @stats[:max_open] %></b></span>
+      <span>terminadas <b><%= @stats[:finished] %></b></span>
+      <span>antigas <b><%= @stats[:stale] %></b></span>
+      <span>mensagens <b><%= @stats[:messages] %></b></span>
+      <span>hoje <b><%= @stats[:players_today] %></b> jogadores · <b><%= @stats[:games_today] %></b> partidas</span>
+      <span>hall <b><%= @stats[:champions] %></b> dias</span>
+    </p>
+  </div>
 
-<div class="actions">
-  <%= button_to "Remover salas antigas (#{@stats[:stale]})", cleanup_admin_rooms_path, class: "secondary" %>
-  <%= button_to "Fechar o dia de ontem (hall da fama)", admin_close_day_path, class: "secondary" %>
+  <div class="actions">
+    <%= button_to "remover salas antigas (#{@stats[:stale]})", cleanup_admin_rooms_path %>
+    <%= button_to "fechar o dia de ontem (hall da fama)", admin_close_day_path %>
+  </div>
+
+  <section class="pane" aria-label="Salas">
+    <div class="pane-head"><span class="title">salas</span><span><%= @rooms.size %></span></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>sala</th><th>situação</th><th>brancas</th><th>pretas</th><th class="num">lances</th><th class="num">msgs</th><th>última atividade</th><th></th></tr>
+        </thead>
+        <tbody>
+          <% @rooms.each do |room| %>
+            <tr>
+              <td><%= link_to room.name, room, class: "room-link" %> <small><%= room.slug %></small></td>
+              <td class="text-2"><%= room.status_text %></td>
+              <td><%= room.name_of(:white) %></td>
+              <td><%= room.name_of(:black) %></td>
+              <td class="num"><%= room.moves.size %></td>
+              <td class="num"><%= room.messages.size %></td>
+              <td class="text-2"><%= time_ago_in_words(room.last_activity_at) %> atrás</td>
+              <td class="actions right">
+                <%= button_to "limpar chat", clear_chat_admin_room_path(room), class: "small outline" %>
+                <%= button_to "fechar", admin_room_path(room), method: :delete, class: "small danger", form: { data: { turbo_confirm: "Fechar?" }, onsubmit: "return confirm('Fechar a sala #{j room.name}?')" } %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
-
-<table>
-  <thead>
-    <tr><th>Sala</th><th>Situação</th><th>Brancas</th><th>Pretas</th><th>Lances</th><th>Msgs</th><th>Última atividade</th><th></th></tr>
-  </thead>
-  <tbody>
-    <% @rooms.each do |room| %>
-      <tr>
-        <td><%= link_to room.name, room %> <small><%= room.slug %></small></td>
-        <td><%= room.status_text %></td>
-        <td><%= room.name_of(:white) %></td>
-        <td><%= room.name_of(:black) %></td>
-        <td><%= room.moves.size %></td>
-        <td><%= room.messages.size %></td>
-        <td><%= time_ago_in_words(room.last_activity_at) %> atrás</td>
-        <td class="actions">
-          <%= button_to "Limpar chat", clear_chat_admin_room_path(room), class: "outline secondary" %>
-          <%= button_to "Fechar", admin_room_path(room), method: :delete, class: "outline contrast", form: { data: { turbo_confirm: "Fechar?" }, onsubmit: "return confirm('Fechar a sala #{j room.name}?')" } %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>

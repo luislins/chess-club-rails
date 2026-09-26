@@ -1,3 +1,16 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="256" fill="red"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <rect width="512" height="512" fill="#1a1b26"/>
+  <g fill="#7aa2f7">
+    <rect x="96" y="96" width="80" height="80"/><rect x="256" y="96" width="80" height="80"/>
+    <rect x="176" y="176" width="80" height="80"/><rect x="336" y="176" width="80" height="80"/>
+    <rect x="96" y="256" width="80" height="80"/><rect x="256" y="256" width="80" height="80"/>
+    <rect x="176" y="336" width="80" height="80"/><rect x="336" y="336" width="80" height="80"/>
+  </g>
+  <g fill="#2e3350">
+    <rect x="176" y="96" width="80" height="80"/><rect x="336" y="96" width="80" height="80"/>
+    <rect x="96" y="176" width="80" height="80"/><rect x="256" y="176" width="80" height="80"/>
+    <rect x="176" y="256" width="80" height="80"/><rect x="336" y="256" width="80" height="80"/>
+    <rect x="96" y="336" width="80" height="80"/><rect x="256" y="336" width="80" height="80"/>
+  </g>
+  <rect x="95" y="95" width="322" height="322" fill="none" stroke="#3b4261" stroke-width="2"/>
 </svg>

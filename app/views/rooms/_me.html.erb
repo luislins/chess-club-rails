@@ -1,38 +1,53 @@
 <% color = room.color_of(player_token) %>
-<article id="me" <%= 'hx-swap-oob="true"'.html_safe if oob %>>
-  <% if color %>
-    <p>Você joga de <strong><%= color_name(color) %></strong>.</p>
-    <% if room.waiting? %>
-      <p><small>Esperando um oponente sentar na outra cadeira…</small></p>
-      <button class="secondary outline" hx-delete="<%= room_seat_path(room) %>" hx-target="#board" hx-swap="outerHTML">Levantar</button>
-    <% elsif room.playing? %>
-      <button class="secondary outline" hx-post="<%= room_resignation_path(room) %>" hx-confirm="Desistir da partida?"
-              hx-target="#board" hx-swap="outerHTML">Desistir</button>
+<section id="me" class="pane pane-me" <%= 'hx-swap-oob="true"'.html_safe if oob %> aria-label="Você">
+  <div class="pane-head"><span class="title">você</span><span><%= current_nickname %></span></div>
+  <div class="pane-body">
+    <% if color %>
+      <p class="you" data-side="<%= color %>">Você joga de <strong><%= color_name(color) %></strong>.</p>
+      <% if room.waiting? %>
+        <p><small>Esperando um oponente sentar na outra cadeira…</small></p>
+        <div class="row">
+          <button class="outline" hx-delete="<%= room_seat_path(room) %>" hx-target="#board" hx-swap="outerHTML">levantar</button>
+        </div>
+      <% elsif room.playing? %>
+        <div class="row">
+          <button class="outline danger" hx-post="<%= room_resignation_path(room) %>" hx-confirm="Desistir da partida?"
+                  hx-target="#board" hx-swap="outerHTML">desistir</button>
+        </div>
+      <% end %>
+    <% elsif room.finished? %>
+      <p>Partida encerrada.</p>
+      <% if prediction %>
+        <p><small>Seu palpite: <%= color_name(prediction.color) %>.</small></p>
+      <% end %>
+    <% else %>
+      <p>Você está assistindo.</p>
+      <% if room.seat_free?(:white) || room.seat_free?(:black) %>
+        <div class="row">
+          <% if room.seat_free?(:white) %>
+            <button class="primary" hx-post="<%= room_seat_path(room, color: :white) %>" hx-target="#board" hx-swap="outerHTML">♙ sentar como Brancas</button>
+          <% end %>
+          <% if room.seat_free?(:black) %>
+            <button class="primary" hx-post="<%= room_seat_path(room, color: :black) %>" hx-target="#board" hx-swap="outerHTML">♟ sentar como Pretas</button>
+          <% end %>
+        </div>
+      <% end %>
+      <% if room.predictions_open? %>
+        <div class="prediction">
+          <p><small><%= prediction ? "Seu palpite: #{color_name(prediction.color)}. Mudar:" : "Quem vence? Dê seu palpite:" %></small></p>
+          <div class="row">
+            <button class="<%= prediction&.color == 'white' ? 'on' : 'outline' %>" hx-post="<%= room_prediction_path(room, color: :white) %>" hx-target="#board" hx-swap="outerHTML">♙ Brancas</button>
+            <button class="<%= prediction&.color == 'black' ? 'on' : 'outline' %>" hx-post="<%= room_prediction_path(room, color: :black) %>" hx-target="#board" hx-swap="outerHTML">♟ Pretas</button>
+          </div>
+        </div>
+      <% elsif prediction %>
+        <p><small>Seu palpite: <%= color_name(prediction.color) %>. Torça!</small></p>
+      <% end %>
     <% end %>
-  <% elsif room.finished? %>
-    <p>Partida encerrada.</p>
-    <% if prediction %>
-      <p><small>Seu palpite: <%= color_name(prediction.color) %>.</small></p>
+    <% if room.creator?(player_token) %>
+      <div class="row">
+        <button class="ghost small" hx-delete="<%= room_path(room) %>" hx-confirm="Fechar a sala para todo mundo?">fechar sala</button>
+      </div>
     <% end %>
-  <% else %>
-    <p>Você está assistindo.</p>
-    <% if room.seat_free?(:white) %>
-      <button hx-post="<%= room_seat_path(room, color: :white) %>" hx-target="#board" hx-swap="outerHTML">Sentar como Brancas</button>
-    <% end %>
-    <% if room.seat_free?(:black) %>
-      <button hx-post="<%= room_seat_path(room, color: :black) %>" hx-target="#board" hx-swap="outerHTML">Sentar como Pretas</button>
-    <% end %>
-    <% if room.predictions_open? %>
-      <p class="prediction">
-        <small><%= prediction ? "Seu palpite: #{color_name(prediction.color)}. Mudar:" : "Quem vence? Dê seu palpite:" %></small><br>
-        <button class="<%= 'outline' unless prediction&.color == 'white' %>" hx-post="<%= room_prediction_path(room, color: :white) %>" hx-target="#board" hx-swap="outerHTML">♙ Brancas</button>
-        <button class="<%= 'outline' unless prediction&.color == 'black' %>" hx-post="<%= room_prediction_path(room, color: :black) %>" hx-target="#board" hx-swap="outerHTML">♟ Pretas</button>
-      </p>
-    <% elsif prediction %>
-      <p><small>Seu palpite: <%= color_name(prediction.color) %>. Torça!</small></p>
-    <% end %>
-  <% end %>
-  <% if room.creator?(player_token) %>
-    <button class="contrast outline" hx-delete="<%= room_path(room) %>" hx-confirm="Fechar a sala para todo mundo?">Fechar sala</button>
-  <% end %>
-</article>
+  </div>
+</section>

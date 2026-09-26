@@ -1,27 +1,35 @@
 <% content_for :title, "Hall da fama · Chess Club" %>
-<hgroup>
-  <h1>Hall da fama</h1>
-  <p>Um campeão por dia. A única coisa que não zera à meia-noite.</p>
-</hgroup>
+<% content_for :main_class, "narrow" %>
+<div class="stack">
+  <div class="page-head">
+    <h1>Hall da fama</h1>
+    <p>Um campeão por dia. A única coisa que não zera à meia-noite.</p>
+  </div>
 
-<% if @champions.empty? %>
-  <p>Nenhum dia fechado ainda. O primeiro campeão aparece aqui amanhã. <%= link_to "Ver a arena de hoje", rank_path %>.</p>
-<% else %>
-  <table>
-    <thead>
-      <tr><th>Dia</th><th>Campeão</th><th>Palpiteiro</th><th>Mate mais rápido</th><th>Partidas</th><th></th></tr>
-    </thead>
-    <tbody>
-      <% @champions.each do |c| %>
-        <tr>
-          <td><%= l(c.day) %> <%= theme_badge(c.theme) %></td>
-          <td><%= c.champion_name ? "🏆 #{c.champion_name} (#{c.champion_points} pts)" : "—" %></td>
-          <td><%= c.best_predictor_name ? "🔮 #{c.best_predictor_name} (#{count_pt(c.best_predictor_correct, 'acerto')})" : "—" %></td>
-          <td><%= c.fastest_mate_winner ? "⚡ #{c.fastest_mate_winner}, #{c.fastest_mate_moves} lances" : "—" %></td>
-          <td><%= c.games_count %></td>
-          <td><%= link_to "resumo", day_path(c.day.iso8601) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+  <section class="pane" aria-label="Campeões">
+    <div class="pane-head"><span class="title">campeões</span><span><%= @champions.size %> dias</span></div>
+    <% if @champions.empty? %>
+      <div class="pane-body"><p class="empty">Nenhum dia fechado ainda. O primeiro campeão aparece aqui amanhã. <%= link_to "Ver a arena de hoje", rank_path %>.</p></div>
+    <% else %>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>dia</th><th>campeão</th><th>palpiteiro</th><th>mate mais rápido</th><th class="num">partidas</th><th></th></tr>
+          </thead>
+          <tbody>
+            <% @champions.each do |c| %>
+              <tr>
+                <td class="nowrap"><%= l(c.day) %> <%= theme_badge(c.theme) %></td>
+                <td><%= c.champion_name ? "🏆 #{c.champion_name} (#{c.champion_points} pts)" : tag.span("—", class: "muted") %></td>
+                <td class="text-2"><%= c.best_predictor_name ? "🔮 #{c.best_predictor_name} (#{count_pt(c.best_predictor_correct, 'acerto')})" : "—" %></td>
+                <td class="text-2"><%= c.fastest_mate_winner ? "⚡ #{c.fastest_mate_winner}, #{c.fastest_mate_moves} lances" : "—" %></td>
+                <td class="num"><%= c.games_count %></td>
+                <td class="right"><%= link_to "resumo", day_path(c.day.iso8601) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </section>
+</div>

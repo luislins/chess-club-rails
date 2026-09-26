@@ -4,45 +4,55 @@
   targets      = (my_turn && selected) ? room.legal_targets(selected) : []
   ranks        = 8.downto(1).to_a
   files        = ("a".."h").to_a
+  state        = room.finished? ? "finished" : (room.playing? ? "playing" : "waiting")
 %>
-<div id="board" class="board-wrap">
-  <% if promotion %>
-    <div class="promotion">
-      <span>Promover para:</span>
-      <% { "q" => "♛", "r" => "♜", "b" => "♝", "n" => "♞" }.each do |code, glyph| %>
-        <button class="<%= piece_color_class(viewer_color == :white ? 'P' : 'p') %>"
-                hx-post="<%= room_moves_path(room) %>"
-                hx-vals='{"from": "<%= promotion[:from] %>", "to": "<%= promotion[:to] %>", "promotion": "<%= code %>"}'
-                hx-target="#board" hx-swap="outerHTML"><%= glyph %></button>
-      <% end %>
-    </div>
-  <% end %>
-
-  <div class="board <%= 'flipped' if viewer_color == :black %> <%= 'my-turn' if my_turn %>">
-    <% ranks.each do |rank| %>
-      <% files.each do |file| %>
-        <%
-          square  = "#{file}#{rank}"
-          piece   = room.piece_at(square)
-          classes = [ "sq", (file.ord + rank).even? ? "dark" : "light", piece_color_class(piece) ]
-          classes << "selected" if square == selected
-          classes << "target"   if targets.include?(square)
-          classes << "capture"  if targets.include?(square) && piece
-        %>
-        <% if my_turn && targets.include?(square) %>
-          <button class="<%= classes.join(' ') %>" data-square="<%= square %>"
+<section id="board" class="pane pane-board" aria-label="Tabuleiro">
+  <div class="pane-head">
+    <h1><%= room.name %></h1>
+    <span class="status" data-state="<%= state %>"><%= room.status_text %></span>
+    <span class="meta"><span class="tc"><%= room.time_control_text %></span> <%= theme_badge(room.theme) %></span>
+  </div>
+  <div class="pane-body board-wrap">
+    <% if promotion %>
+      <div class="promotion" role="group" aria-label="Promoção">
+        <span>promover para</span>
+        <% { "q" => "♛", "r" => "♜", "b" => "♝", "n" => "♞" }.each do |code, glyph| %>
+          <button class="<%= piece_color_class(viewer_color == :white ? 'P' : 'p') %>"
                   hx-post="<%= room_moves_path(room) %>"
-                  hx-vals='{"from": "<%= selected %>", "to": "<%= square %>"}'
-                  hx-target="#board" hx-swap="outerHTML"><%= piece_glyph(piece) %></button>
-        <% elsif my_turn && room.own_piece?(viewer_color, square) %>
-          <%# clicking the selected piece again deselects it (GET without ?from) %>
-          <button class="<%= classes.join(' ') %>" data-square="<%= square %>"
-                  hx-get="<%= state_room_path(room, from: (square == selected ? nil : square)) %>"
-                  hx-target="#board" hx-swap="outerHTML"><%= piece_glyph(piece) %></button>
-        <% else %>
-          <div class="<%= classes.join(' ') %>" data-square="<%= square %>"><%= piece_glyph(piece) %></div>
+                  hx-vals='{"from": "<%= promotion[:from] %>", "to": "<%= promotion[:to] %>", "promotion": "<%= code %>"}'
+                  hx-target="#board" hx-swap="outerHTML"><%= glyph %></button>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div class="board <%= 'flipped' if viewer_color == :black %> <%= 'my-turn' if my_turn %>">
+      <% ranks.each do |rank| %>
+        <% files.each do |file| %>
+          <%
+            square  = "#{file}#{rank}"
+            piece   = room.piece_at(square)
+            classes = [ "sq", (file.ord + rank).even? ? "dark" : "light", piece_color_class(piece) ]
+            classes << "selected" if square == selected
+            classes << "target"   if targets.include?(square)
+            classes << "capture"  if targets.include?(square) && piece
+            attrs   = %(data-square="#{square}" data-file="#{file}" data-rank="#{rank}")
+            label   = %(<span class="file">#{file}</span>).html_safe
+          %>
+          <% if my_turn && targets.include?(square) %>
+            <button class="<%= classes.join(' ') %>" <%= attrs.html_safe %> aria-label="Mover para <%= square %>"
+                    hx-post="<%= room_moves_path(room) %>"
+                    hx-vals='{"from": "<%= selected %>", "to": "<%= square %>"}'
+                    hx-target="#board" hx-swap="outerHTML"><%= piece_glyph(piece) %><%= label %></button>
+          <% elsif my_turn && room.own_piece?(viewer_color, square) %>
+            <%# clicking the selected piece again deselects it (GET without ?from) %>
+            <button class="<%= classes.join(' ') %>" <%= attrs.html_safe %> aria-label="<%= square == selected ? 'Desmarcar' : 'Selecionar' %> <%= square %>"
+                    hx-get="<%= state_room_path(room, from: (square == selected ? nil : square)) %>"
+                    hx-target="#board" hx-swap="outerHTML"><%= piece_glyph(piece) %><%= label %></button>
+          <% else %>
+            <div class="<%= classes.join(' ') %>" <%= attrs.html_safe %>><%= piece_glyph(piece) %><%= label %></div>
+          <% end %>
         <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
+</section>

@@ -24,9 +24,6 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root "rooms#index"
-
-  get  "welcome", to: "welcome#show"
-  post "welcome", to: "welcome#create"
     resources :rooms, only: %i[index destroy], param: :slug do
       collection { post :cleanup }
       member     { post :clear_chat }
