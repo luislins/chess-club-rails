@@ -1,6 +1,7 @@
 class SeatsController < ApplicationController
   include RoomScoped
 
+  rate_limit to: 10, within: 1.minute, with: -> { render_rate_limited }
 
   # POST /rooms/:slug/seat  (color=white|black)
   def create

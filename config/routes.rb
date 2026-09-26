@@ -13,5 +13,13 @@ Rails.application.routes.draw do
 
   resource :nickname, only: :update
 
+  namespace :admin do
+    root "rooms#index"
+    resources :rooms, only: %i[index destroy], param: :slug do
+      collection { post :cleanup }
+      member     { post :clear_chat }
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

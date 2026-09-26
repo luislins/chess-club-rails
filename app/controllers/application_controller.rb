@@ -27,4 +27,7 @@ class ApplicationController < ActionController::Base
     render partial: "shared/flash", locals: { error: message }, status: status
   end
 
+  def render_rate_limited
+    render_error("Calma! Muitas requisições. Tente de novo em instantes.", status: :too_many_requests)
+  end
 end

@@ -1,6 +1,7 @@
 class ResignationsController < ApplicationController
   include RoomScoped
 
+  rate_limit to: 5, within: 1.minute, with: -> { render_rate_limited }
 
   # POST /rooms/:slug/resignation
   def create

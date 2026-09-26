@@ -3,6 +3,7 @@ class RoomsController < ApplicationController
 
   skip_before_action :find_room, only: %i[index create]
 
+  rate_limit to: 3, within: 10.minutes, only: :create, with: -> { redirect_to root_path, alert: "Calma! Você criou salas demais. Tente de novo mais tarde." }
 
   def index
     @rooms = Room.recent.limit(50)

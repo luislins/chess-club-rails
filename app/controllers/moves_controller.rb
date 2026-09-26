@@ -1,6 +1,7 @@
 class MovesController < ApplicationController
   include RoomScoped
 
+  rate_limit to: 30, within: 10.seconds, with: -> { render_rate_limited }
 
   # POST /rooms/:slug/moves  (from=e2 to=e4 [promotion=q])
   def create

@@ -1,4 +1,5 @@
 class NicknamesController < ApplicationController
+  rate_limit to: 5, within: 1.minute, with: -> { render_rate_limited }
 
   # PATCH /nickname
   def update
